@@ -1,0 +1,9 @@
+sentence-transformers
+chromadb
+rank-bm25
+transformers
+torch
+langfuse
+google-generativeai
+pandas
+tabulate
