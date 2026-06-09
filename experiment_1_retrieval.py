@@ -136,17 +136,16 @@ def top_ids(results, k=DISPLAY_K):
     return [r["doc_id"] for r in results[:k]]
 
 
+
+
 def hit(results, expected, k=DISPLAY_K):
     """True if expected doc appears in top-k."""
     return expected in top_ids(results, k)
 
 
-def format_result_col(results, expected, k=DISPLAY_K):
-    rows = []
-    for r in results[:k]:
-        marker = " ✓" if r["doc_id"] == expected else ""
-        rows.append(f"#{r['rank']} {r['doc_id']} ({r['score']:.4f}){marker}")
-    return "\n".join(rows)
+def format_cell(r, expected):
+    marker = " ✓" if r["doc_id"] == expected else "  "
+    return f"#{r['rank']} {r['doc_id']} ({r['score']:.4f}){marker}"
 
 
 def print_query_block(q, dense_res, bm25_res, rrf_res):
@@ -157,16 +156,18 @@ def print_query_block(q, dense_res, bm25_res, rrf_res):
     print()
 
     expected = q["expected_doc"]
-    table = [
+    # One row per rank position — avoids multi-line cell rendering issues
+    rows = [
         [
-            format_result_col(dense_res, expected),
-            format_result_col(bm25_res, expected),
-            format_result_col(rrf_res, expected),
+            format_cell(dense_res[i], expected),
+            format_cell(bm25_res[i],  expected),
+            format_cell(rrf_res[i],   expected),
         ]
+        for i in range(DISPLAY_K)
     ]
     print(
         tabulate(
-            table,
+            rows,
             headers=["Dense Top-3", "BM25 Top-3", "RRF Top-3"],
             tablefmt="rounded_outline",
         )
