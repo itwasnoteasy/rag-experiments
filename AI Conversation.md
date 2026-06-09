@@ -296,3 +296,92 @@ for q in QUERIES:
         print(f"  → I predict: BM25 wins / Dense wins / Both fail")
         print()
 ```
+
+## What to do next — the learning loop 
+### After Prompt0
+The real learning happens by running retrievers against the queries and observing where they succeed and fail. Here's the progression:
+#### Step 1 — BM25 (sparse retrieval)
+Add a new cell and run this:
+```
+from rank_bm25 import BM25Okapi
+from corpus import CORPUS
+from queries import QUERIES
+
+# Index the corpus
+tokenized_corpus = [doc["content"].lower().split() for doc in CORPUS]
+bm25 = BM25Okapi(tokenized_corpus)
+
+# Run all 10 queries
+for q in QUERIES:
+    tokens = q["text"].lower().split()
+    scores = bm25.get_scores(tokens)
+    top_idx = scores.argsort()[::-1][:3]
+    top_docs = [CORPUS[i]["id"] for i in top_idx]
+    hit = "✓" if q["expected_doc"] in top_docs else "✗"
+    print(f"{hit} [{q['query_type']:12}] {q['id']} | Expected: {q['expected_doc']} | Got: {top_docs}")
+```
+What to observe:
+- Q01, Q02 (exact_match) should show ✓ — BM25 finds exact tokens like INS-POL-2024 and $200
+- Q03, Q04 (semantic) should show ✗ — "handset" and "toilet" don't exist in the corpus, BM25 is blind to meaning
+- Q07, Q08 (context_dep) will almost certainly fail — 4-word queries have no signal
+
+#### Step 2 — Dense retrieval (semantic embeddings)
+```
+from sentence_transformers import SentenceTransformer
+import numpy as np
+
+model = SentenceTransformer("all-MiniLM-L6-v2")  # fast, good quality
+
+# Embed all documents
+doc_texts = [doc["content"] for doc in CORPUS]
+doc_embeddings = model.encode(doc_texts, show_progress_bar=True)
+
+# Run all 10 queries
+for q in QUERIES:
+    q_emb = model.encode(q["text"])
+    sims = np.dot(doc_embeddings, q_emb) / (
+        np.linalg.norm(doc_embeddings, axis=1) * np.linalg.norm(q_emb)
+    )
+    top_idx = sims.argsort()[::-1][:3]
+    top_docs = [CORPUS[i]["id"] for i in top_idx]
+    hit = "✓" if q["expected_doc"] in top_docs else "✗"
+    print(f"{hit} [{q['query_type']:12}] {q['id']} | Expected: {q['expected_doc']} | Got: {top_docs}")
+```
+What to observe:
+- Q03, Q04 (semantic) should now flip to ✓ — embeddings understand "handset" ≈ "device", "keep numbers" ≈ "porting"
+- Q01, Q02 (exact_match) may or may not hold — interesting to compare with BM25
+- Q07, Q08 (context_dep) still likely fail — short decontextualized queries are hard even for embeddings
+
+#### Step 3 — Side-by-side comparison (the real insight)
+```
+# Run both and compare
+results = []
+for q in QUERIES:
+    # BM25
+    tokens = q["text"].lower().split()
+    bm25_top = [CORPUS[i]["id"] for i in bm25.get_scores(tokens).argsort()[::-1][:1]]
+    
+    # Dense
+    q_emb = model.encode(q["text"])
+    sims = np.dot(doc_embeddings, q_emb) / (np.linalg.norm(doc_embeddings, axis=1) * np.linalg.norm(q_emb))
+    dense_top = [CORPUS[i]["id"] for i in sims.argsort()[::-1][:1]]
+    
+    bm25_hit = "✓" if q["expected_doc"] == bm25_top[0] else "✗"
+    dense_hit = "✓" if q["expected_doc"] == dense_top[0] else "✗"
+    results.append([q["id"], q["query_type"], q["difficulty"], q["expected_doc"], 
+                    f"{bm25_hit} {bm25_top[0]}", f"{dense_hit} {dense_top[0]}"])
+
+from tabulate import tabulate
+print(tabulate(results, headers=["ID","Type","Diff","Expected","BM25 Top1","Dense Top1"], tablefmt="rounded_outline"))
+```
+This gives you a head-to-head table — the clearest way to internalize when each approach wins and why.
+
+#### The nuances to look for
+| Observation | What it teaches |
+| ----------  | ------ |
+| BM25 nails Q01/Q02 Dense also does | Exact terms dominate the embedding space too — not always a pure tradeoff |
+| Dense fails Q07/Q08 ("What about the deductible?") | Short context-free queries lack enough signal even for embeddings — motivates query rewriting |
+| Both struggle on Q05/Q06 (ambiguous)	| When both categories are plausible retrieval alone can't resolve intent — motivates classification before retrieval |
+| Dense top-3 includes the right doc but not at rank 1 | Recall vs precision tradeoff — in RAG you typical |
+
+Run Step 1 first, write down your predictions for Dense before running Step 2, then check. The surprises are where the learning sticks.
