@@ -74,10 +74,16 @@ def rerank(cross_encoder, query_text, rrf_top10):
     pairs = [(query_text, DOC_CONTENT[r["doc_id"]]) for r in rrf_top10]
     scores = cross_encoder.predict(pairs).tolist()
 
-    # Attach cross-encoder scores and sort descending
+    # Normalise the RRF rank field name (stored as "rank" in experiment_1_results.json)
+    # and attach cross-encoder scores, then sort descending by CE score
     candidates = [
-        {**r, "ce_score": round(float(s), 4)}
-        for r, s in zip(rrf_top10, scores)
+        {
+            "doc_id":   r["doc_id"],
+            "rrf_rank": r.get("rrf_rank", r.get("rank", i + 1)),
+            "rrf_score": r.get("score", 0),
+            "ce_score": round(float(s), 4),
+        }
+        for i, (r, s) in enumerate(zip(rrf_top10, scores))
     ]
     candidates.sort(key=lambda x: x["ce_score"], reverse=True)
 
