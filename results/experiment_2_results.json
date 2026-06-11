@@ -1,0 +1,490 @@
+{
+  "summary": {
+    "total_displaced_docs": 5,
+    "max_displacement_qid": "Q10",
+    "max_displacement_value": 4,
+    "per_query_max_delta": {
+      "Q01": 1,
+      "Q02": 2,
+      "Q03": 3,
+      "Q04": 3,
+      "Q05": 1,
+      "Q06": 2,
+      "Q07": 3,
+      "Q08": 2,
+      "Q09": 2,
+      "Q10": 4
+    },
+    "promotion_example": {
+      "query_id": "Q04",
+      "query_text": "We're moving our company to a new telecom provider and need to keep our existing contact numbers.",
+      "doc_id": "SMB-009",
+      "doc_title": "Porting Numbers Away: Leaving Our Network",
+      "rrf_rank": 5,
+      "ce_rank": 2,
+      "ce_score": -3.7393
+    }
+  },
+  "queries": [
+    {
+      "query_id": "Q01",
+      "query_text": "What is the deductible for a premium smartphone under policy INS-POL-2024?",
+      "query_type": "exact_match",
+      "difficulty": "easy",
+      "expected_doc": "DI-002",
+      "reranked": [
+        {
+          "doc_id": "DI-002",
+          "rrf_rank": 1,
+          "rrf_score": 0.032787,
+          "ce_score": 7.5338,
+          "ce_rank": 1
+        },
+        {
+          "doc_id": "DI-003",
+          "rrf_rank": 2,
+          "rrf_score": 0.032002,
+          "ce_score": -6.9958,
+          "ce_rank": 2
+        },
+        {
+          "doc_id": "DI-006",
+          "rrf_rank": 3,
+          "rrf_score": 0.016129,
+          "ce_score": -9.3103,
+          "ce_rank": 3
+        },
+        {
+          "doc_id": "DI-010",
+          "rrf_rank": 5,
+          "rrf_score": 0.015625,
+          "ce_score": -9.8045,
+          "ce_rank": 4
+        },
+        {
+          "doc_id": "DI-008",
+          "rrf_rank": 4,
+          "rrf_score": 0.015873,
+          "ce_score": -11.2418,
+          "ce_rank": 5
+        }
+      ],
+      "rrf_hit": true,
+      "ce_hit": true
+    },
+    {
+      "query_id": "Q02",
+      "query_text": "How much is the non-return fee if I don't send back my swapped device \u2014 is it $200?",
+      "query_type": "exact_match",
+      "difficulty": "easy",
+      "expected_doc": "DI-004",
+      "reranked": [
+        {
+          "doc_id": "DI-004",
+          "rrf_rank": 1,
+          "rrf_score": 0.032787,
+          "ce_score": 5.8674,
+          "ce_rank": 1
+        },
+        {
+          "doc_id": "DI-006",
+          "rrf_rank": 2,
+          "rrf_score": 0.016129,
+          "ce_score": -6.4041,
+          "ce_rank": 2
+        },
+        {
+          "doc_id": "DI-002",
+          "rrf_rank": 4,
+          "rrf_score": 0.015873,
+          "ce_score": -7.0278,
+          "ce_rank": 3
+        },
+        {
+          "doc_id": "DI-001",
+          "rrf_rank": 5,
+          "rrf_score": 0.015873,
+          "ce_score": -8.6641,
+          "ce_rank": 4
+        },
+        {
+          "doc_id": "SMB-009",
+          "rrf_rank": 3,
+          "rrf_score": 0.016129,
+          "ce_score": -8.7614,
+          "ce_rank": 5
+        }
+      ],
+      "rrf_hit": true,
+      "ce_hit": true
+    },
+    {
+      "query_id": "Q03",
+      "query_text": "My handset took a dip in the toilet \u2014 will my protection plan cover the repair?",
+      "query_type": "semantic",
+      "difficulty": "hard",
+      "expected_doc": "DI-005",
+      "reranked": [
+        {
+          "doc_id": "DI-005",
+          "rrf_rank": 1,
+          "rrf_score": 0.032522,
+          "ce_score": -3.6586,
+          "ce_rank": 1
+        },
+        {
+          "doc_id": "DI-008",
+          "rrf_rank": 3,
+          "rrf_score": 0.016393,
+          "ce_score": -9.6436,
+          "ce_rank": 2
+        },
+        {
+          "doc_id": "DI-001",
+          "rrf_rank": 5,
+          "rrf_score": 0.015873,
+          "ce_score": -9.6634,
+          "ce_rank": 3
+        },
+        {
+          "doc_id": "DI-006",
+          "rrf_rank": 4,
+          "rrf_score": 0.016129,
+          "ce_score": -10.8755,
+          "ce_rank": 4
+        },
+        {
+          "doc_id": "DI-004",
+          "rrf_rank": 2,
+          "rrf_score": 0.03101,
+          "ce_score": -11.0482,
+          "ce_rank": 5
+        }
+      ],
+      "rrf_hit": true,
+      "ce_hit": true
+    },
+    {
+      "query_id": "Q04",
+      "query_text": "We're moving our company to a new telecom provider and need to keep our existing contact numbers.",
+      "query_type": "semantic",
+      "difficulty": "hard",
+      "expected_doc": "SMB-009",
+      "reranked": [
+        {
+          "doc_id": "SMB-002",
+          "rrf_rank": 3,
+          "rrf_score": 0.016393,
+          "ce_score": -1.4648,
+          "ce_rank": 1
+        },
+        {
+          "doc_id": "SMB-009",
+          "rrf_rank": 5,
+          "rrf_score": 0.016129,
+          "ce_score": -3.7393,
+          "ce_rank": 2
+        },
+        {
+          "doc_id": "SMB-006",
+          "rrf_rank": 1,
+          "rrf_score": 0.032002,
+          "ce_score": -6.9794,
+          "ce_rank": 3
+        },
+        {
+          "doc_id": "SMB-007",
+          "rrf_rank": 2,
+          "rrf_score": 0.031258,
+          "ce_score": -7.9909,
+          "ce_rank": 4
+        },
+        {
+          "doc_id": "DI-001",
+          "rrf_rank": 4,
+          "rrf_score": 0.016393,
+          "ce_score": -10.147,
+          "ce_rank": 5
+        }
+      ],
+      "rrf_hit": false,
+      "ce_hit": true
+    },
+    {
+      "query_id": "Q05",
+      "query_text": "How do I add insurance to devices on my account?",
+      "query_type": "ambiguous",
+      "difficulty": "medium",
+      "expected_doc": "DI-006",
+      "reranked": [
+        {
+          "doc_id": "SMB-008",
+          "rrf_rank": 2,
+          "rrf_score": 0.016393,
+          "ce_score": 5.2969,
+          "ce_rank": 1
+        },
+        {
+          "doc_id": "DI-006",
+          "rrf_rank": 1,
+          "rrf_score": 0.032018,
+          "ce_score": 4.6384,
+          "ce_rank": 2
+        },
+        {
+          "doc_id": "DI-001",
+          "rrf_rank": 3,
+          "rrf_score": 0.016129,
+          "ce_score": 3.3977,
+          "ce_rank": 3
+        },
+        {
+          "doc_id": "DI-003",
+          "rrf_rank": 5,
+          "rrf_score": 0.015873,
+          "ce_score": -1.1203,
+          "ce_rank": 4
+        },
+        {
+          "doc_id": "SMB-006",
+          "rrf_rank": 4,
+          "rrf_score": 0.016129,
+          "ce_score": -8.2017,
+          "ce_rank": 5
+        }
+      ],
+      "rrf_hit": true,
+      "ce_hit": true
+    },
+    {
+      "query_id": "Q06",
+      "query_text": "What happens when I switch to a different plan mid-month?",
+      "query_type": "ambiguous",
+      "difficulty": "medium",
+      "expected_doc": "SMB-004",
+      "reranked": [
+        {
+          "doc_id": "DI-007",
+          "rrf_rank": 3,
+          "rrf_score": 0.016129,
+          "ce_score": -7.4787,
+          "ce_rank": 1
+        },
+        {
+          "doc_id": "SMB-003",
+          "rrf_rank": 1,
+          "rrf_score": 0.016393,
+          "ce_score": -8.2817,
+          "ce_rank": 2
+        },
+        {
+          "doc_id": "DI-006",
+          "rrf_rank": 5,
+          "rrf_score": 0.015873,
+          "ce_score": -8.5444,
+          "ce_rank": 3
+        },
+        {
+          "doc_id": "DI-002",
+          "rrf_rank": 2,
+          "rrf_score": 0.016393,
+          "ce_score": -10.9432,
+          "ce_rank": 4
+        },
+        {
+          "doc_id": "SMB-007",
+          "rrf_rank": 4,
+          "rrf_score": 0.016129,
+          "ce_score": -11.1727,
+          "ce_rank": 5
+        }
+      ],
+      "rrf_hit": false,
+      "ce_hit": false
+    },
+    {
+      "query_id": "Q07",
+      "query_text": "What about the deductible?",
+      "query_type": "context_dep",
+      "difficulty": "hard",
+      "expected_doc": "DI-002",
+      "reranked": [
+        {
+          "doc_id": "DI-002",
+          "rrf_rank": 1,
+          "rrf_score": 0.016393,
+          "ce_score": 0.8104,
+          "ce_rank": 1
+        },
+        {
+          "doc_id": "DI-003",
+          "rrf_rank": 3,
+          "rrf_score": 0.016129,
+          "ce_score": -10.5213,
+          "ce_rank": 2
+        },
+        {
+          "doc_id": "DI-009",
+          "rrf_rank": 4,
+          "rrf_score": 0.016129,
+          "ce_score": -10.6831,
+          "ce_rank": 3
+        },
+        {
+          "doc_id": "DI-006",
+          "rrf_rank": 5,
+          "rrf_score": 0.015873,
+          "ce_score": -11.0568,
+          "ce_rank": 4
+        },
+        {
+          "doc_id": "SMB-004",
+          "rrf_rank": 2,
+          "rrf_score": 0.016393,
+          "ce_score": -11.1034,
+          "ce_rank": 5
+        }
+      ],
+      "rrf_hit": true,
+      "ce_hit": true
+    },
+    {
+      "query_id": "Q08",
+      "query_text": "And how long does that usually take?",
+      "query_type": "context_dep",
+      "difficulty": "hard",
+      "expected_doc": "SMB-002",
+      "reranked": [
+        {
+          "doc_id": "DI-004",
+          "rrf_rank": 2,
+          "rrf_score": 0.016393,
+          "ce_score": 0.0693,
+          "ce_rank": 1
+        },
+        {
+          "doc_id": "SMB-002",
+          "rrf_rank": 1,
+          "rrf_score": 0.030769,
+          "ce_score": -3.5186,
+          "ce_rank": 2
+        },
+        {
+          "doc_id": "SMB-006",
+          "rrf_rank": 4,
+          "rrf_score": 0.016129,
+          "ce_score": -4.7203,
+          "ce_rank": 3
+        },
+        {
+          "doc_id": "SMB-009",
+          "rrf_rank": 5,
+          "rrf_score": 0.016129,
+          "ce_score": -6.4741,
+          "ce_rank": 4
+        },
+        {
+          "doc_id": "DI-003",
+          "rrf_rank": 3,
+          "rrf_score": 0.016393,
+          "ce_score": -11.0963,
+          "ce_rank": 5
+        }
+      ],
+      "rrf_hit": true,
+      "ce_hit": true
+    },
+    {
+      "query_id": "Q09",
+      "query_text": "I want to file a claim for my broken screen.",
+      "query_type": "clear_intent",
+      "difficulty": "easy",
+      "expected_doc": "DI-001",
+      "reranked": [
+        {
+          "doc_id": "DI-001",
+          "rrf_rank": 3,
+          "rrf_score": 0.016393,
+          "ce_score": -1.5261,
+          "ce_rank": 1
+        },
+        {
+          "doc_id": "DI-005",
+          "rrf_rank": 1,
+          "rrf_score": 0.032002,
+          "ce_score": -6.8875,
+          "ce_rank": 2
+        },
+        {
+          "doc_id": "DI-008",
+          "rrf_rank": 5,
+          "rrf_score": 0.016129,
+          "ce_score": -7.5508,
+          "ce_rank": 3
+        },
+        {
+          "doc_id": "DI-010",
+          "rrf_rank": 2,
+          "rrf_score": 0.03125,
+          "ce_score": -7.5687,
+          "ce_rank": 4
+        },
+        {
+          "doc_id": "DI-007",
+          "rrf_rank": 4,
+          "rrf_score": 0.016393,
+          "ce_score": -7.7934,
+          "ce_rank": 5
+        }
+      ],
+      "rrf_hit": true,
+      "ce_hit": true
+    },
+    {
+      "query_id": "Q10",
+      "query_text": "How do I give one of my employees access to manage the company's phone account?",
+      "query_type": "clear_intent",
+      "difficulty": "easy",
+      "expected_doc": "SMB-005",
+      "reranked": [
+        {
+          "doc_id": "SMB-005",
+          "rrf_rank": 5,
+          "rrf_score": 0.015873,
+          "ce_score": -1.9917,
+          "ce_rank": 1
+        },
+        {
+          "doc_id": "SMB-008",
+          "rrf_rank": 3,
+          "rrf_score": 0.016393,
+          "ce_score": -2.0547,
+          "ce_rank": 2
+        },
+        {
+          "doc_id": "SMB-001",
+          "rrf_rank": 2,
+          "rrf_score": 0.031754,
+          "ce_score": -2.2723,
+          "ce_rank": 3
+        },
+        {
+          "doc_id": "SMB-007",
+          "rrf_rank": 1,
+          "rrf_score": 0.031754,
+          "ce_score": -4.77,
+          "ce_rank": 4
+        },
+        {
+          "doc_id": "DI-005",
+          "rrf_rank": 4,
+          "rrf_score": 0.016393,
+          "ce_score": -11.2423,
+          "ce_rank": 5
+        }
+      ],
+      "rrf_hit": false,
+      "ce_hit": true
+    }
+  ]
+}

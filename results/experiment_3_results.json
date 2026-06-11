@@ -1,0 +1,402 @@
+{
+  "threshold_used": 0.7,
+  "queries": [
+    {
+      "query_id": "Q01",
+      "query_text": "What is the deductible for a premium smartphone under policy INS-POL-2024?",
+      "query_type": "exact_match",
+      "difficulty": "easy",
+      "expected_doc": "DI-002",
+      "expected_category": "device_insurance",
+      "ranked_classes": [
+        {
+          "label": "DEVICE_INSURANCE_POLICY",
+          "score": 0.8813
+        },
+        {
+          "label": "DEVICE_INSURANCE_CLAIM",
+          "score": 0.0916
+        },
+        {
+          "label": "SMB_BILLING",
+          "score": 0.0136
+        },
+        {
+          "label": "SMB_ONBOARDING",
+          "score": 0.0134
+        }
+      ],
+      "route": {
+        "decision": "SPECIFIC_NAMESPACE",
+        "namespace": "device_insurance_policy",
+        "label": "DEVICE_INSURANCE_POLICY",
+        "confidence": 0.8813,
+        "description": "Route to 'device_insurance_policy' index only"
+      },
+      "route_correct": true
+    },
+    {
+      "query_id": "Q02",
+      "query_text": "How much is the non-return fee if I don't send back my swapped device \u2014 is it $200?",
+      "query_type": "exact_match",
+      "difficulty": "easy",
+      "expected_doc": "DI-004",
+      "expected_category": "device_insurance",
+      "ranked_classes": [
+        {
+          "label": "DEVICE_INSURANCE_POLICY",
+          "score": 0.5696
+        },
+        {
+          "label": "DEVICE_INSURANCE_CLAIM",
+          "score": 0.3356
+        },
+        {
+          "label": "SMB_BILLING",
+          "score": 0.0525
+        },
+        {
+          "label": "SMB_ONBOARDING",
+          "score": 0.0423
+        }
+      ],
+      "route": {
+        "decision": "FULL_CORPUS",
+        "namespace": "all",
+        "label": "DEVICE_INSURANCE_POLICY",
+        "confidence": 0.5696,
+        "description": "Confidence below threshold \u2014 search full corpus"
+      },
+      "route_correct": true
+    },
+    {
+      "query_id": "Q03",
+      "query_text": "My handset took a dip in the toilet \u2014 will my protection plan cover the repair?",
+      "query_type": "semantic",
+      "difficulty": "hard",
+      "expected_doc": "DI-005",
+      "expected_category": "device_insurance",
+      "ranked_classes": [
+        {
+          "label": "DEVICE_INSURANCE_CLAIM",
+          "score": 0.822
+        },
+        {
+          "label": "DEVICE_INSURANCE_POLICY",
+          "score": 0.1613
+        },
+        {
+          "label": "SMB_BILLING",
+          "score": 0.0108
+        },
+        {
+          "label": "SMB_ONBOARDING",
+          "score": 0.0059
+        }
+      ],
+      "route": {
+        "decision": "SPECIFIC_NAMESPACE",
+        "namespace": "device_insurance_claims",
+        "label": "DEVICE_INSURANCE_CLAIM",
+        "confidence": 0.822,
+        "description": "Route to 'device_insurance_claims' index only"
+      },
+      "route_correct": true
+    },
+    {
+      "query_id": "Q04",
+      "query_text": "We're moving our company to a new telecom provider and need to keep our existing contact numbers.",
+      "query_type": "semantic",
+      "difficulty": "hard",
+      "expected_doc": "SMB-009",
+      "expected_category": "smb_onboarding",
+      "ranked_classes": [
+        {
+          "label": "SMB_ONBOARDING",
+          "score": 0.4498
+        },
+        {
+          "label": "SMB_BILLING",
+          "score": 0.1891
+        },
+        {
+          "label": "DEVICE_INSURANCE_POLICY",
+          "score": 0.1869
+        },
+        {
+          "label": "DEVICE_INSURANCE_CLAIM",
+          "score": 0.1741
+        }
+      ],
+      "route": {
+        "decision": "FULL_CORPUS",
+        "namespace": "all",
+        "label": "SMB_ONBOARDING",
+        "confidence": 0.4498,
+        "description": "Confidence below threshold \u2014 search full corpus"
+      },
+      "route_correct": true
+    },
+    {
+      "query_id": "Q05",
+      "query_text": "How do I add insurance to devices on my account?",
+      "query_type": "ambiguous",
+      "difficulty": "medium",
+      "expected_doc": "DI-006",
+      "expected_category": "device_insurance",
+      "ranked_classes": [
+        {
+          "label": "DEVICE_INSURANCE_CLAIM",
+          "score": 0.484
+        },
+        {
+          "label": "DEVICE_INSURANCE_POLICY",
+          "score": 0.4568
+        },
+        {
+          "label": "SMB_BILLING",
+          "score": 0.0305
+        },
+        {
+          "label": "SMB_ONBOARDING",
+          "score": 0.0286
+        }
+      ],
+      "route": {
+        "decision": "FULL_CORPUS",
+        "namespace": "all",
+        "label": "DEVICE_INSURANCE_CLAIM",
+        "confidence": 0.484,
+        "description": "Confidence below threshold \u2014 search full corpus"
+      },
+      "route_correct": true
+    },
+    {
+      "query_id": "Q06",
+      "query_text": "What happens when I switch to a different plan mid-month?",
+      "query_type": "ambiguous",
+      "difficulty": "medium",
+      "expected_doc": "SMB-004",
+      "expected_category": "smb_onboarding",
+      "ranked_classes": [
+        {
+          "label": "SMB_BILLING",
+          "score": 0.3572
+        },
+        {
+          "label": "DEVICE_INSURANCE_POLICY",
+          "score": 0.3149
+        },
+        {
+          "label": "DEVICE_INSURANCE_CLAIM",
+          "score": 0.1863
+        },
+        {
+          "label": "SMB_ONBOARDING",
+          "score": 0.1416
+        }
+      ],
+      "route": {
+        "decision": "FULL_CORPUS",
+        "namespace": "all",
+        "label": "SMB_BILLING",
+        "confidence": 0.3572,
+        "description": "Confidence below threshold \u2014 search full corpus"
+      },
+      "route_correct": true
+    },
+    {
+      "query_id": "Q07",
+      "query_text": "What about the deductible?",
+      "query_type": "context_dep",
+      "difficulty": "hard",
+      "expected_doc": "DI-002",
+      "expected_category": "device_insurance",
+      "ranked_classes": [
+        {
+          "label": "DEVICE_INSURANCE_POLICY",
+          "score": 0.5071
+        },
+        {
+          "label": "DEVICE_INSURANCE_CLAIM",
+          "score": 0.3012
+        },
+        {
+          "label": "SMB_BILLING",
+          "score": 0.1088
+        },
+        {
+          "label": "SMB_ONBOARDING",
+          "score": 0.083
+        }
+      ],
+      "route": {
+        "decision": "FULL_CORPUS",
+        "namespace": "all",
+        "label": "DEVICE_INSURANCE_POLICY",
+        "confidence": 0.5071,
+        "description": "Confidence below threshold \u2014 search full corpus"
+      },
+      "route_correct": true
+    },
+    {
+      "query_id": "Q08",
+      "query_text": "And how long does that usually take?",
+      "query_type": "context_dep",
+      "difficulty": "hard",
+      "expected_doc": "SMB-002",
+      "expected_category": "smb_onboarding",
+      "ranked_classes": [
+        {
+          "label": "DEVICE_INSURANCE_CLAIM",
+          "score": 0.3258
+        },
+        {
+          "label": "SMB_ONBOARDING",
+          "score": 0.2485
+        },
+        {
+          "label": "SMB_BILLING",
+          "score": 0.2242
+        },
+        {
+          "label": "DEVICE_INSURANCE_POLICY",
+          "score": 0.2015
+        }
+      ],
+      "route": {
+        "decision": "FULL_CORPUS",
+        "namespace": "all",
+        "label": "DEVICE_INSURANCE_CLAIM",
+        "confidence": 0.3258,
+        "description": "Confidence below threshold \u2014 search full corpus"
+      },
+      "route_correct": true
+    },
+    {
+      "query_id": "Q09",
+      "query_text": "I want to file a claim for my broken screen.",
+      "query_type": "clear_intent",
+      "difficulty": "easy",
+      "expected_doc": "DI-001",
+      "expected_category": "device_insurance",
+      "ranked_classes": [
+        {
+          "label": "DEVICE_INSURANCE_CLAIM",
+          "score": 0.838
+        },
+        {
+          "label": "DEVICE_INSURANCE_POLICY",
+          "score": 0.1174
+        },
+        {
+          "label": "SMB_BILLING",
+          "score": 0.0272
+        },
+        {
+          "label": "SMB_ONBOARDING",
+          "score": 0.0174
+        }
+      ],
+      "route": {
+        "decision": "SPECIFIC_NAMESPACE",
+        "namespace": "device_insurance_claims",
+        "label": "DEVICE_INSURANCE_CLAIM",
+        "confidence": 0.838,
+        "description": "Route to 'device_insurance_claims' index only"
+      },
+      "route_correct": true
+    },
+    {
+      "query_id": "Q10",
+      "query_text": "How do I give one of my employees access to manage the company's phone account?",
+      "query_type": "clear_intent",
+      "difficulty": "easy",
+      "expected_doc": "SMB-005",
+      "expected_category": "smb_onboarding",
+      "ranked_classes": [
+        {
+          "label": "SMB_ONBOARDING",
+          "score": 0.7203
+        },
+        {
+          "label": "SMB_BILLING",
+          "score": 0.125
+        },
+        {
+          "label": "DEVICE_INSURANCE_POLICY",
+          "score": 0.098
+        },
+        {
+          "label": "DEVICE_INSURANCE_CLAIM",
+          "score": 0.0567
+        }
+      ],
+      "route": {
+        "decision": "SPECIFIC_NAMESPACE",
+        "namespace": "smb_onboarding",
+        "label": "SMB_ONBOARDING",
+        "confidence": 0.7203,
+        "description": "Route to 'smb_onboarding' index only"
+      },
+      "route_correct": true
+    }
+  ],
+  "threshold_sweep": [
+    {
+      "threshold": 0.5,
+      "specific": 6,
+      "full": 4,
+      "correct": 6,
+      "misrouted": 0,
+      "coverage": 0.6,
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.75
+    },
+    {
+      "threshold": 0.6,
+      "specific": 4,
+      "full": 6,
+      "correct": 4,
+      "misrouted": 0,
+      "coverage": 0.4,
+      "precision": 1.0,
+      "recall": 0.4,
+      "f1": 0.57
+    },
+    {
+      "threshold": 0.7,
+      "specific": 4,
+      "full": 6,
+      "correct": 4,
+      "misrouted": 0,
+      "coverage": 0.4,
+      "precision": 1.0,
+      "recall": 0.4,
+      "f1": 0.57
+    },
+    {
+      "threshold": 0.8,
+      "specific": 3,
+      "full": 7,
+      "correct": 3,
+      "misrouted": 0,
+      "coverage": 0.3,
+      "precision": 1.0,
+      "recall": 0.3,
+      "f1": 0.46
+    }
+  ],
+  "best_threshold": {
+    "threshold": 0.5,
+    "specific": 6,
+    "full": 4,
+    "correct": 6,
+    "misrouted": 0,
+    "coverage": 0.6,
+    "precision": 1.0,
+    "recall": 0.6,
+    "f1": 0.75
+  }
+}

@@ -1,0 +1,912 @@
+[
+  {
+    "query_id": "Q01",
+    "query_text": "What is the deductible for a premium smartphone under policy INS-POL-2024?",
+    "query_type": "exact_match",
+    "difficulty": "easy",
+    "expected_doc": "DI-002",
+    "dense_top5": [
+      {
+        "doc_id": "DI-002",
+        "score": 0.7574,
+        "rank": 1
+      },
+      {
+        "doc_id": "DI-006",
+        "score": 0.5591,
+        "rank": 2
+      },
+      {
+        "doc_id": "DI-003",
+        "score": 0.5404,
+        "rank": 3
+      },
+      {
+        "doc_id": "DI-010",
+        "score": 0.5153,
+        "rank": 4
+      },
+      {
+        "doc_id": "DI-007",
+        "score": 0.4579,
+        "rank": 5
+      }
+    ],
+    "bm25_top5": [
+      {
+        "doc_id": "DI-002",
+        "score": 14.1318,
+        "rank": 1
+      },
+      {
+        "doc_id": "DI-003",
+        "score": 5.692,
+        "rank": 2
+      },
+      {
+        "doc_id": "DI-008",
+        "score": 4.6116,
+        "rank": 3
+      },
+      {
+        "doc_id": "SMB-005",
+        "score": 4.5316,
+        "rank": 4
+      },
+      {
+        "doc_id": "DI-005",
+        "score": 4.2218,
+        "rank": 5
+      }
+    ],
+    "rrf_top5": [
+      {
+        "doc_id": "DI-002",
+        "score": 0.032787,
+        "rank": 1
+      },
+      {
+        "doc_id": "DI-003",
+        "score": 0.032002,
+        "rank": 2
+      },
+      {
+        "doc_id": "DI-006",
+        "score": 0.016129,
+        "rank": 3
+      },
+      {
+        "doc_id": "DI-008",
+        "score": 0.015873,
+        "rank": 4
+      },
+      {
+        "doc_id": "DI-010",
+        "score": 0.015625,
+        "rank": 5
+      }
+    ],
+    "dense_hit": true,
+    "bm25_hit": true,
+    "rrf_hit": true
+  },
+  {
+    "query_id": "Q02",
+    "query_text": "How much is the non-return fee if I don't send back my swapped device \u2014 is it $200?",
+    "query_type": "exact_match",
+    "difficulty": "easy",
+    "expected_doc": "DI-004",
+    "dense_top5": [
+      {
+        "doc_id": "DI-004",
+        "score": 0.6099,
+        "rank": 1
+      },
+      {
+        "doc_id": "DI-006",
+        "score": 0.4543,
+        "rank": 2
+      },
+      {
+        "doc_id": "DI-002",
+        "score": 0.4513,
+        "rank": 3
+      },
+      {
+        "doc_id": "DI-010",
+        "score": 0.3893,
+        "rank": 4
+      },
+      {
+        "doc_id": "DI-008",
+        "score": 0.3537,
+        "rank": 5
+      }
+    ],
+    "bm25_top5": [
+      {
+        "doc_id": "DI-004",
+        "score": 10.6506,
+        "rank": 1
+      },
+      {
+        "doc_id": "SMB-009",
+        "score": 5.1466,
+        "rank": 2
+      },
+      {
+        "doc_id": "DI-001",
+        "score": 4.9644,
+        "rank": 3
+      },
+      {
+        "doc_id": "SMB-005",
+        "score": 4.2295,
+        "rank": 4
+      },
+      {
+        "doc_id": "DI-005",
+        "score": 4.0399,
+        "rank": 5
+      }
+    ],
+    "rrf_top5": [
+      {
+        "doc_id": "DI-004",
+        "score": 0.032787,
+        "rank": 1
+      },
+      {
+        "doc_id": "DI-006",
+        "score": 0.016129,
+        "rank": 2
+      },
+      {
+        "doc_id": "SMB-009",
+        "score": 0.016129,
+        "rank": 3
+      },
+      {
+        "doc_id": "DI-002",
+        "score": 0.015873,
+        "rank": 4
+      },
+      {
+        "doc_id": "DI-001",
+        "score": 0.015873,
+        "rank": 5
+      }
+    ],
+    "dense_hit": true,
+    "bm25_hit": true,
+    "rrf_hit": true
+  },
+  {
+    "query_id": "Q03",
+    "query_text": "My handset took a dip in the toilet \u2014 will my protection plan cover the repair?",
+    "query_type": "semantic",
+    "difficulty": "hard",
+    "expected_doc": "DI-005",
+    "dense_top5": [
+      {
+        "doc_id": "DI-008",
+        "score": 0.5046,
+        "rank": 1
+      },
+      {
+        "doc_id": "DI-005",
+        "score": 0.4508,
+        "rank": 2
+      },
+      {
+        "doc_id": "DI-001",
+        "score": 0.4058,
+        "rank": 3
+      },
+      {
+        "doc_id": "DI-003",
+        "score": 0.4009,
+        "rank": 4
+      },
+      {
+        "doc_id": "DI-004",
+        "score": 0.3652,
+        "rank": 5
+      }
+    ],
+    "bm25_top5": [
+      {
+        "doc_id": "DI-005",
+        "score": 7.5922,
+        "rank": 1
+      },
+      {
+        "doc_id": "DI-006",
+        "score": 6.5189,
+        "rank": 2
+      },
+      {
+        "doc_id": "DI-007",
+        "score": 5.6404,
+        "rank": 3
+      },
+      {
+        "doc_id": "DI-004",
+        "score": 5.6132,
+        "rank": 4
+      },
+      {
+        "doc_id": "DI-002",
+        "score": 5.2999,
+        "rank": 5
+      }
+    ],
+    "rrf_top5": [
+      {
+        "doc_id": "DI-005",
+        "score": 0.032522,
+        "rank": 1
+      },
+      {
+        "doc_id": "DI-004",
+        "score": 0.03101,
+        "rank": 2
+      },
+      {
+        "doc_id": "DI-008",
+        "score": 0.016393,
+        "rank": 3
+      },
+      {
+        "doc_id": "DI-006",
+        "score": 0.016129,
+        "rank": 4
+      },
+      {
+        "doc_id": "DI-001",
+        "score": 0.015873,
+        "rank": 5
+      }
+    ],
+    "dense_hit": true,
+    "bm25_hit": true,
+    "rrf_hit": true
+  },
+  {
+    "query_id": "Q04",
+    "query_text": "We're moving our company to a new telecom provider and need to keep our existing contact numbers.",
+    "query_type": "semantic",
+    "difficulty": "hard",
+    "expected_doc": "SMB-009",
+    "dense_top5": [
+      {
+        "doc_id": "SMB-002",
+        "score": 0.5094,
+        "rank": 1
+      },
+      {
+        "doc_id": "SMB-009",
+        "score": 0.394,
+        "rank": 2
+      },
+      {
+        "doc_id": "SMB-006",
+        "score": 0.3037,
+        "rank": 3
+      },
+      {
+        "doc_id": "SMB-008",
+        "score": 0.2868,
+        "rank": 4
+      },
+      {
+        "doc_id": "SMB-007",
+        "score": 0.2764,
+        "rank": 5
+      }
+    ],
+    "bm25_top5": [
+      {
+        "doc_id": "DI-001",
+        "score": 8.3242,
+        "rank": 1
+      },
+      {
+        "doc_id": "SMB-006",
+        "score": 7.8699,
+        "rank": 2
+      },
+      {
+        "doc_id": "SMB-007",
+        "score": 6.5832,
+        "rank": 3
+      },
+      {
+        "doc_id": "DI-006",
+        "score": 6.1902,
+        "rank": 4
+      },
+      {
+        "doc_id": "DI-004",
+        "score": 6.1112,
+        "rank": 5
+      }
+    ],
+    "rrf_top5": [
+      {
+        "doc_id": "SMB-006",
+        "score": 0.032002,
+        "rank": 1
+      },
+      {
+        "doc_id": "SMB-007",
+        "score": 0.031258,
+        "rank": 2
+      },
+      {
+        "doc_id": "SMB-002",
+        "score": 0.016393,
+        "rank": 3
+      },
+      {
+        "doc_id": "DI-001",
+        "score": 0.016393,
+        "rank": 4
+      },
+      {
+        "doc_id": "SMB-009",
+        "score": 0.016129,
+        "rank": 5
+      }
+    ],
+    "dense_hit": true,
+    "bm25_hit": false,
+    "rrf_hit": false
+  },
+  {
+    "query_id": "Q05",
+    "query_text": "How do I add insurance to devices on my account?",
+    "query_type": "ambiguous",
+    "difficulty": "medium",
+    "expected_doc": "DI-006",
+    "dense_top5": [
+      {
+        "doc_id": "DI-006",
+        "score": 0.6682,
+        "rank": 1
+      },
+      {
+        "doc_id": "DI-001",
+        "score": 0.565,
+        "rank": 2
+      },
+      {
+        "doc_id": "DI-003",
+        "score": 0.5588,
+        "rank": 3
+      },
+      {
+        "doc_id": "DI-002",
+        "score": 0.5077,
+        "rank": 4
+      },
+      {
+        "doc_id": "DI-010",
+        "score": 0.5065,
+        "rank": 5
+      }
+    ],
+    "bm25_top5": [
+      {
+        "doc_id": "SMB-008",
+        "score": 4.7128,
+        "rank": 1
+      },
+      {
+        "doc_id": "SMB-006",
+        "score": 3.2394,
+        "rank": 2
+      },
+      {
+        "doc_id": "SMB-010",
+        "score": 3.2213,
+        "rank": 3
+      },
+      {
+        "doc_id": "DI-006",
+        "score": 3.1774,
+        "rank": 4
+      },
+      {
+        "doc_id": "DI-007",
+        "score": 2.9645,
+        "rank": 5
+      }
+    ],
+    "rrf_top5": [
+      {
+        "doc_id": "DI-006",
+        "score": 0.032018,
+        "rank": 1
+      },
+      {
+        "doc_id": "SMB-008",
+        "score": 0.016393,
+        "rank": 2
+      },
+      {
+        "doc_id": "DI-001",
+        "score": 0.016129,
+        "rank": 3
+      },
+      {
+        "doc_id": "SMB-006",
+        "score": 0.016129,
+        "rank": 4
+      },
+      {
+        "doc_id": "DI-003",
+        "score": 0.015873,
+        "rank": 5
+      }
+    ],
+    "dense_hit": true,
+    "bm25_hit": false,
+    "rrf_hit": true
+  },
+  {
+    "query_id": "Q06",
+    "query_text": "What happens when I switch to a different plan mid-month?",
+    "query_type": "ambiguous",
+    "difficulty": "medium",
+    "expected_doc": "SMB-004",
+    "dense_top5": [
+      {
+        "doc_id": "SMB-003",
+        "score": 0.4431,
+        "rank": 1
+      },
+      {
+        "doc_id": "DI-007",
+        "score": 0.4204,
+        "rank": 2
+      },
+      {
+        "doc_id": "DI-006",
+        "score": 0.3908,
+        "rank": 3
+      },
+      {
+        "doc_id": "SMB-010",
+        "score": 0.3673,
+        "rank": 4
+      },
+      {
+        "doc_id": "SMB-009",
+        "score": 0.344,
+        "rank": 5
+      }
+    ],
+    "bm25_top5": [
+      {
+        "doc_id": "DI-002",
+        "score": 5.2338,
+        "rank": 1
+      },
+      {
+        "doc_id": "SMB-007",
+        "score": 3.8832,
+        "rank": 2
+      },
+      {
+        "doc_id": "SMB-008",
+        "score": 3.2568,
+        "rank": 3
+      },
+      {
+        "doc_id": "DI-003",
+        "score": 3.1168,
+        "rank": 4
+      },
+      {
+        "doc_id": "DI-005",
+        "score": 3.0878,
+        "rank": 5
+      }
+    ],
+    "rrf_top5": [
+      {
+        "doc_id": "SMB-003",
+        "score": 0.016393,
+        "rank": 1
+      },
+      {
+        "doc_id": "DI-002",
+        "score": 0.016393,
+        "rank": 2
+      },
+      {
+        "doc_id": "DI-007",
+        "score": 0.016129,
+        "rank": 3
+      },
+      {
+        "doc_id": "SMB-007",
+        "score": 0.016129,
+        "rank": 4
+      },
+      {
+        "doc_id": "DI-006",
+        "score": 0.015873,
+        "rank": 5
+      }
+    ],
+    "dense_hit": false,
+    "bm25_hit": false,
+    "rrf_hit": false
+  },
+  {
+    "query_id": "Q07",
+    "query_text": "What about the deductible?",
+    "query_type": "context_dep",
+    "difficulty": "hard",
+    "expected_doc": "DI-002",
+    "dense_top5": [
+      {
+        "doc_id": "DI-002",
+        "score": 0.569,
+        "rank": 1
+      },
+      {
+        "doc_id": "DI-003",
+        "score": 0.4554,
+        "rank": 2
+      },
+      {
+        "doc_id": "DI-006",
+        "score": 0.3873,
+        "rank": 3
+      },
+      {
+        "doc_id": "DI-010",
+        "score": 0.3828,
+        "rank": 4
+      },
+      {
+        "doc_id": "DI-005",
+        "score": 0.3571,
+        "rank": 5
+      }
+    ],
+    "bm25_top5": [
+      {
+        "doc_id": "SMB-004",
+        "score": 1.2081,
+        "rank": 1
+      },
+      {
+        "doc_id": "DI-009",
+        "score": 1.1838,
+        "rank": 2
+      },
+      {
+        "doc_id": "DI-004",
+        "score": 1.1783,
+        "rank": 3
+      },
+      {
+        "doc_id": "SMB-010",
+        "score": 1.1094,
+        "rank": 4
+      },
+      {
+        "doc_id": "DI-007",
+        "score": 1.1082,
+        "rank": 5
+      }
+    ],
+    "rrf_top5": [
+      {
+        "doc_id": "DI-002",
+        "score": 0.016393,
+        "rank": 1
+      },
+      {
+        "doc_id": "SMB-004",
+        "score": 0.016393,
+        "rank": 2
+      },
+      {
+        "doc_id": "DI-003",
+        "score": 0.016129,
+        "rank": 3
+      },
+      {
+        "doc_id": "DI-009",
+        "score": 0.016129,
+        "rank": 4
+      },
+      {
+        "doc_id": "DI-006",
+        "score": 0.015873,
+        "rank": 5
+      }
+    ],
+    "dense_hit": true,
+    "bm25_hit": false,
+    "rrf_hit": true
+  },
+  {
+    "query_id": "Q08",
+    "query_text": "And how long does that usually take?",
+    "query_type": "context_dep",
+    "difficulty": "hard",
+    "expected_doc": "SMB-002",
+    "dense_top5": [
+      {
+        "doc_id": "DI-004",
+        "score": 0.3292,
+        "rank": 1
+      },
+      {
+        "doc_id": "SMB-006",
+        "score": 0.3231,
+        "rank": 2
+      },
+      {
+        "doc_id": "SMB-001",
+        "score": 0.297,
+        "rank": 3
+      },
+      {
+        "doc_id": "DI-009",
+        "score": 0.2905,
+        "rank": 4
+      },
+      {
+        "doc_id": "SMB-002",
+        "score": 0.2903,
+        "rank": 5
+      }
+    ],
+    "bm25_top5": [
+      {
+        "doc_id": "DI-003",
+        "score": 4.1642,
+        "rank": 1
+      },
+      {
+        "doc_id": "SMB-009",
+        "score": 3.9642,
+        "rank": 2
+      },
+      {
+        "doc_id": "DI-002",
+        "score": 1.4996,
+        "rank": 3
+      },
+      {
+        "doc_id": "DI-005",
+        "score": 1.4479,
+        "rank": 4
+      },
+      {
+        "doc_id": "SMB-002",
+        "score": 1.1792,
+        "rank": 5
+      }
+    ],
+    "rrf_top5": [
+      {
+        "doc_id": "SMB-002",
+        "score": 0.030769,
+        "rank": 1
+      },
+      {
+        "doc_id": "DI-004",
+        "score": 0.016393,
+        "rank": 2
+      },
+      {
+        "doc_id": "DI-003",
+        "score": 0.016393,
+        "rank": 3
+      },
+      {
+        "doc_id": "SMB-006",
+        "score": 0.016129,
+        "rank": 4
+      },
+      {
+        "doc_id": "SMB-009",
+        "score": 0.016129,
+        "rank": 5
+      }
+    ],
+    "dense_hit": false,
+    "bm25_hit": false,
+    "rrf_hit": true
+  },
+  {
+    "query_id": "Q09",
+    "query_text": "I want to file a claim for my broken screen.",
+    "query_type": "clear_intent",
+    "difficulty": "easy",
+    "expected_doc": "DI-001",
+    "dense_top5": [
+      {
+        "doc_id": "DI-001",
+        "score": 0.5787,
+        "rank": 1
+      },
+      {
+        "doc_id": "DI-008",
+        "score": 0.4767,
+        "rank": 2
+      },
+      {
+        "doc_id": "DI-005",
+        "score": 0.4703,
+        "rank": 3
+      },
+      {
+        "doc_id": "DI-010",
+        "score": 0.4566,
+        "rank": 4
+      },
+      {
+        "doc_id": "DI-003",
+        "score": 0.4351,
+        "rank": 5
+      }
+    ],
+    "bm25_top5": [
+      {
+        "doc_id": "DI-007",
+        "score": 4.2676,
+        "rank": 1
+      },
+      {
+        "doc_id": "DI-005",
+        "score": 4.2201,
+        "rank": 2
+      },
+      {
+        "doc_id": "SMB-007",
+        "score": 4.1951,
+        "rank": 3
+      },
+      {
+        "doc_id": "DI-010",
+        "score": 3.2273,
+        "rank": 4
+      },
+      {
+        "doc_id": "SMB-001",
+        "score": 3.1651,
+        "rank": 5
+      }
+    ],
+    "rrf_top5": [
+      {
+        "doc_id": "DI-005",
+        "score": 0.032002,
+        "rank": 1
+      },
+      {
+        "doc_id": "DI-010",
+        "score": 0.03125,
+        "rank": 2
+      },
+      {
+        "doc_id": "DI-001",
+        "score": 0.016393,
+        "rank": 3
+      },
+      {
+        "doc_id": "DI-007",
+        "score": 0.016393,
+        "rank": 4
+      },
+      {
+        "doc_id": "DI-008",
+        "score": 0.016129,
+        "rank": 5
+      }
+    ],
+    "dense_hit": true,
+    "bm25_hit": false,
+    "rrf_hit": true
+  },
+  {
+    "query_id": "Q10",
+    "query_text": "How do I give one of my employees access to manage the company's phone account?",
+    "query_type": "clear_intent",
+    "difficulty": "easy",
+    "expected_doc": "SMB-005",
+    "dense_top5": [
+      {
+        "doc_id": "SMB-008",
+        "score": 0.5001,
+        "rank": 1
+      },
+      {
+        "doc_id": "SMB-007",
+        "score": 0.464,
+        "rank": 2
+      },
+      {
+        "doc_id": "SMB-005",
+        "score": 0.4525,
+        "rank": 3
+      },
+      {
+        "doc_id": "SMB-001",
+        "score": 0.3758,
+        "rank": 4
+      },
+      {
+        "doc_id": "SMB-010",
+        "score": 0.3369,
+        "rank": 5
+      }
+    ],
+    "bm25_top5": [
+      {
+        "doc_id": "DI-005",
+        "score": 7.9615,
+        "rank": 1
+      },
+      {
+        "doc_id": "SMB-001",
+        "score": 4.5799,
+        "rank": 2
+      },
+      {
+        "doc_id": "DI-007",
+        "score": 4.2516,
+        "rank": 3
+      },
+      {
+        "doc_id": "SMB-007",
+        "score": 4.179,
+        "rank": 4
+      },
+      {
+        "doc_id": "SMB-002",
+        "score": 4.1555,
+        "rank": 5
+      }
+    ],
+    "rrf_top5": [
+      {
+        "doc_id": "SMB-007",
+        "score": 0.031754,
+        "rank": 1
+      },
+      {
+        "doc_id": "SMB-001",
+        "score": 0.031754,
+        "rank": 2
+      },
+      {
+        "doc_id": "SMB-008",
+        "score": 0.016393,
+        "rank": 3
+      },
+      {
+        "doc_id": "DI-005",
+        "score": 0.016393,
+        "rank": 4
+      },
+      {
+        "doc_id": "SMB-005",
+        "score": 0.015873,
+        "rank": 5
+      }
+    ],
+    "dense_hit": true,
+    "bm25_hit": false,
+    "rrf_hit": false
+  }
+]
