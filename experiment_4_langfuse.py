@@ -78,7 +78,11 @@ OUTPUT_FILE  = os.path.join(RESULTS_DIR, "experiment_4_latency_report.json")
 TOP_K        = 5
 DISPLAY_K    = 3
 RRF_K        = 60
-GEMINI_MODEL = "gemini-2.0-flash"
+# Override via env var, e.g.:
+#   os.environ["GEMINI_MODEL"] = "gemini-2.5-flash"
+# Available Flash models: gemini-2.5-flash, gemini-2.0-flash, gemini-1.5-flash
+# Note: "gemini-3.5-flash" does not exist — the latest Flash is gemini-2.5-flash.
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
 
 DOC_CONTENT = {doc["id"]: doc["content"] for doc in CORPUS}
 DOC_TITLE   = {doc["id"]: doc["title"]   for doc in CORPUS}
