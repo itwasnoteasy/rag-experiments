@@ -178,6 +178,19 @@ def expected_category(q):
 # via a model-serving framework (TorchServe, Triton, or a managed endpoint
 # like HuggingFace Inference Endpoints or SageMaker) that keeps the model
 # warm and batches concurrent requests.
+
+# Standard Industry WorkflowTo get the absolute highest performance out of an AI model, 
+# engineers leverage the strengths of each component using this exact blueprint:
+# Train the model using PyTorch or TensorFlow because of their rich libraries, dataset ecosystems, 
+# and debugging tools.Export the completed model weights into a single ONNX file using native 
+# export modules like torch.onnx.export().Compile that ONNX file using the TensorRT command-line 
+# tool (trtexec) or Python API on your target deployment machine.Deploy the compiled, 
+# hardware-tuned TensorRT engine directly into your production application for rapid, 
+# low-latency execution.To help tailor this breakdown, what specific use case are you exploring? 
+# For instance, are you looking to optimize an existing model for faster inference, trying to 
+# select the right training framework for a new project, or seeking code snippets to convert a
+# model from one format to another?
+
 #
 # TECHNICAL DETAIL — MULTI_CLASS vs MULTI_LABEL
 # ----------------------------------------------
