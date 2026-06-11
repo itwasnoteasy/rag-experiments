@@ -149,7 +149,9 @@ def setup_langfuse() -> Langfuse:
         print("ERROR: LANGFUSE_PUBLIC_KEY and LANGFUSE_SECRET_KEY environment")
         print("       variables must be set before running this experiment.")
         print()
-        print("  In Colab:")
+        print("  In Colab, add keys via the Secrets panel (🔑 icon in sidebar),")
+        print("  then load them in a cell before running this script:")
+        print()
         print("    from google.colab import userdata")
         print("    import os")
         print('    os.environ["LANGFUSE_PUBLIC_KEY"] = userdata.get("LANGFUSE_PUBLIC_KEY")')
@@ -157,21 +159,40 @@ def setup_langfuse() -> Langfuse:
         print('    os.environ["GOOGLE_API_KEY"]      = userdata.get("GOOGLE_API_KEY")')
         sys.exit(1)
 
+    # Langfuse Cloud has two regional endpoints.
+    # Keys created in one region will 401 if pointed at the other.
+    #   US region (default): https://cloud.langfuse.com
+    #   EU region:           https://eu.cloud.langfuse.com
+    # Set LANGFUSE_HOST env var to override, e.g.:
+    #   os.environ["LANGFUSE_HOST"] = "https://eu.cloud.langfuse.com"
+    host = os.environ.get("LANGFUSE_HOST", "https://cloud.langfuse.com")
+
     lf = Langfuse(
         public_key=public_key,
         secret_key=secret_key,
-        # host defaults to https://cloud.langfuse.com
-        # For self-hosted: host="https://your-langfuse.internal"
+        host=host,
     )
 
-    ok = lf.auth_check()
-    if not ok:
-        print("ERROR: Langfuse auth_check() failed. Verify your keys.")
+    # auth_check() raises UnauthorizedError on bad credentials in SDK v4+
+    # rather than returning False — wrap it so we give a clear message.
+    try:
+        lf.auth_check()
+    except Exception as e:
+        print(f"ERROR: Langfuse authentication failed against {host}")
+        print()
+        print("  Common causes:")
+        print("  1. Wrong region — your keys may be for the EU region.")
+        print('     Fix: os.environ["LANGFUSE_HOST"] = "https://eu.cloud.langfuse.com"')
+        print("  2. Keys copied incorrectly (trailing whitespace, truncated).")
+        print("     Fix: re-copy from langfuse.com → Settings → API Keys.")
+        print("  3. Keys belong to a different Langfuse project.")
+        print(f"\n  Original error: {e}")
         sys.exit(1)
 
     print("=== Langfuse client initialised ===")
+    print(f"  Host:                  {host}")
     print(f"  Project authenticated: OK")
-    print(f"  Trace dashboard: https://cloud.langfuse.com")
+    print(f"  Trace dashboard:       {host}")
     print()
     return lf
 
