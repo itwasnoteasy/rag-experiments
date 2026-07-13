@@ -592,3 +592,28 @@ using LangGraph instead of CrewAI, so the two are directly comparable.
 
    Save to results/experiment_9b_langgraph_results.json
 ```
+
+### Prompt 9C — The comparison that becomes your interview answer
+```
+Build experiment_9c_framework_comparison.py that consolidates 
+experiments 9 (CrewAI) and 9b (LangGraph) into a single comparison.
+
+1. TABLE
+   Dimension | CrewAI | LangGraph
+   - Lines of code to implement the same 3-agent workflow
+   - Latency (avg across the 3 test queries)
+   - HITL support (manual simulation vs. native interrupt/resume)
+   - State persistence (none vs. built-in checkpointing)
+   - Conditional branching / revision loops (how naturally expressed)
+   - Learning curve (your own honest 1-5 rating with justification)
+
+2. WRITTEN RECOMMENDATION
+   Print a 4-5 sentence recommendation: for a Center-of-Excellence 
+   building enterprise-grade, auditable, stateful agent systems 
+   (like the Ingram Micro Xvantage context), which framework would 
+   you recommend as the default, and when would you reach for the 
+   other one instead? Justify from your own measured results, not 
+   general reputation.
+
+   Save to results/experiment_9c_comparison.json
+```
