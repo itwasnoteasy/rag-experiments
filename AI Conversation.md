@@ -385,3 +385,171 @@ This gives you a head-to-head table — the clearest way to internalize when eac
 | Dense top-3 includes the right doc but not at rank 1 | Recall vs precision tradeoff — in RAG you typical |
 
 Run Step 1 first, write down your predictions for Dense before running Step 2, then check. The surprises are where the learning sticks.
+
+### Prompt 6 — LLM-as-Judge / RAGAS-style evaluation
+```
+Build experiment_6_llm_judge.py that implements automated quality scoring 
+using an LLM-as-judge pattern, extending the synthesis results from 
+experiment_5.
+
+1. For all 10 queries, take the synthesized response (using RRF + 
+   cross-encoder context from experiment 2) and score it using Gemini 
+   Flash as an independent judge across four RAGAS-style dimensions:
+
+   - FAITHFULNESS: Does the response contradict or go beyond the 
+     retrieved context? Score 0-1, with the judge required to quote 
+     the specific sentence if it flags a violation.
+   - ANSWER RELEVANCE: Does the response actually address the question 
+     asked? Score 0-1.
+   - CONTEXT PRECISION: What fraction of the retrieved chunks were 
+     actually used/relevant to constructing the answer? Score 0-1.
+   - CONTEXT RECALL: Does the retrieved context contain everything 
+     needed to fully answer the question, or is information missing? 
+     Score 0-1.
+
+   Use a SEPARATE Gemini call for each dimension with a tightly 
+   constrained system prompt that forces a JSON output: 
+   {"score": 0.0-1.0, "reasoning": "one sentence"}
+
+2. OUTPUT
+   Print a table: Query | Faithfulness | Relevance | Ctx Precision | 
+   Ctx Recall | Overall (average)
+   
+   Flag any query where Faithfulness < 0.7 as "NEEDS HUMAN REVIEW" 
+   in a separate summary section.
+
+3. VALIDATION AGAINST YOUR OWN JUDGMENT
+   For the 3 queries you manually scored in experiment_5 (accuracy/
+   completeness/grounding on a 1-3 scale), print a side-by-side 
+   comparison: your manual score vs. the LLM judge's score for the 
+   same query. Note any disagreement.
+
+   Save to results/experiment_6_judge_results.json
+
+This experiment gives you a concrete, run-yourself answer to "how do 
+you evaluate RAG quality at scale without manual review of every 
+response" — the LLM-as-judge pattern with per-dimension scoring.
+```
+
+### Prompt 7 — Human-in-the-loop: confidence-gated escalation + propose-then-confirm
+```
+Build experiment_7_hitl.py implementing two human-in-the-loop patterns 
+on top of the existing pipeline.
+
+PART A — CONFIDENCE-GATED ESCALATION
+1. Using the RAGAS-style scores from experiment 6, implement a routing 
+   rule: if Faithfulness < 0.7 OR Context Recall < 0.6, the response 
+   is NOT shown directly to the user — instead, output a flagged 
+   response: {"status": "needs_human_review", "draft_answer": "...", 
+   "reason": "low faithfulness score: 0.55"}
+2. For queries that pass, output {"status": "auto_approved", "answer": "..."}
+3. Print a summary: how many of the 10 queries would have been 
+   auto-approved vs. escalated to a human reviewer, and which ones.
+
+PART B — PROPOSE-THEN-CONFIRM FOR WRITE ACTIONS
+Simulate a "write" tool call using this corpus — e.g., "categorize 
+this transaction as [category]" or "update account setting to [value]" 
+(pick something contextually appropriate to the telecom/insurance corpus, 
+like "file this claim" or "update account plan").
+
+1. Instead of executing the write action immediately, generate a 
+   PROPOSED DIFF: {"action": "file_claim", "current_state": null, 
+   "proposed_state": {...}, "requires_confirmation": true}
+2. Simulate a human confirming or rejecting the diff (hardcode a 
+   confirm/reject decision for 3 test cases) and only "execute" 
+   (print a mock execution log) on confirmation.
+3. Print an audit trail: timestamp, proposed action, human decision, 
+   final outcome — showing the full chain from AI proposal to human 
+   decision to execution.
+
+Save both parts to results/experiment_7_hitl_results.json
+
+This directly demonstrates the read-vs-write trust separation pattern 
+you'd cite in a system design interview — read actions auto-execute, 
+write actions require a reviewable diff.
+```
+
+### Prompt 8 — NLI Contradiction Guardrail (the one you've been citing verbally)
+```
+Build experiment_8_nli_guardrail.py implementing the premise-hypothesis 
+contradiction check you've been describing conceptually.
+
+1. Use a pretrained NLI model: cross-encoder/nli-deberta-v3-base 
+   (this is a manageable ~440MB model, runs fine on CPU/Colab)
+
+2. For each of the 10 queries' synthesized responses:
+   - PREMISE = the retrieved context (top re-ranked chunk from 
+     experiment 2)
+   - HYPOTHESIS = the synthesized response
+   - Run NLI classification: outputs entailment / neutral / 
+     contradiction with confidence scores
+
+3. DELIBERATE STRESS TEST
+   Manually construct 2 adversarial examples: take a real retrieved 
+   chunk, and hand-write a response that subtly contradicts it (e.g., 
+   the document says "$500 deductible" and your fake response says 
+   "$50 deductible"). Run these through the NLI checker.
+
+4. OUTPUT
+   Table: Query | NLI Label | Confidence | Action (pass-through / 
+   BLOCKED)
+   
+   For the 2 adversarial test cases, confirm whether the NLI checker 
+   actually caught the contradiction. If it didn't catch one, that's 
+   an important and honest finding — report it plainly along with 
+   your hypothesis for why (e.g., numeric contradictions are 
+   sometimes harder for NLI models trained mostly on textual/semantic 
+   contradiction, not numeric substitution).
+
+   Save to results/experiment_8_nli_results.json
+
+This experiment either confirms or complicates your "NLI catches 
+hallucinations" talking point — you need to know which, honestly, 
+before an interviewer asks you to defend it.
+```
+
+### Prompt 9 — Multi-Agent Orchestration (new priority — Ingram Micro requirement)
+```
+Build experiment_9_multiagent.py using CrewAI (pip install crewai) to 
+implement a minimal but real multi-agent system on top of the existing 
+corpus and queries — this is deliberately different from the single-
+agent-with-tools pattern in experiments 1-8.
+
+1. DEFINE THREE AGENTS
+   - Retriever Agent: given a query, calls the hybrid retrieval + 
+     re-ranking pipeline from experiments 1-2, returns top context
+   - Analyst Agent: given the query and retrieved context, drafts an 
+     initial answer AND explicitly flags what additional information 
+     (if any) it would need to be fully confident
+   - Reviewer Agent: given the Analyst's draft, runs the NLI check 
+     from experiment 8 and either approves or sends back to the 
+     Analyst with specific feedback for revision (max 1 revision loop)
+
+2. ORCHESTRATION
+   Use CrewAI's sequential process to chain these three agents for 
+   each of the 10 queries. Log each agent's individual output (not 
+   just the final result) so you can see the intermediate reasoning.
+
+3. COMPARE TO SINGLE-AGENT BASELINE
+   For the 3 hardest queries (Q04, Q06, Q08 — the ones that failed 
+   retrieval in experiment 1), run them through both:
+   - The single-agent pipeline (experiments 1-5 combined)
+   - This new 3-agent crew
+   
+   Print a side-by-side comparison of the final answers. Note whether 
+   the multi-agent revision loop caught or improved anything the 
+   single-agent pipeline missed, or whether it just added latency 
+   without improving quality — report honestly either way.
+
+4. LATENCY COST OF MULTI-AGENT
+   Print total latency for single-agent vs. 3-agent crew on the same 
+   3 queries. Multi-agent orchestration has a latency cost from 
+   sequential agent calls — quantify it.
+
+   Save to results/experiment_9_multiagent_results.json
+
+This is your most important new experiment — it gives you a real, 
+run-yourself answer to "when does multi-agent orchestration actually 
+help vs. just add latency," which is a core judgment question for 
+an Agentic AI Architect role.
+```
