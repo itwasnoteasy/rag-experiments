@@ -553,3 +553,42 @@ run-yourself answer to "when does multi-agent orchestration actually
 help vs. just add latency," which is a core judgment question for 
 an Agentic AI Architect role.
 ```
+
+### Prompt 9B — Rebuild the same crew in LangGraph
+```
+Build experiment_9b_langgraph.py that reimplements the exact same 
+3-agent workflow from experiment 9 (Retriever → Analyst → Reviewer) 
+using LangGraph instead of CrewAI, so the two are directly comparable.
+
+1. GRAPH DEFINITION
+   Define three nodes: retriever_node, analyst_node, reviewer_node.
+   Use a StateGraph with a shared state object carrying: query, 
+   retrieved_context, draft_answer, nli_result, revision_count.
+   
+   Edges: retriever_node -> analyst_node -> reviewer_node
+   Conditional edge from reviewer_node: if NLI check fails AND 
+   revision_count < 1, loop back to analyst_node with feedback; 
+   otherwise proceed to END.
+
+2. NATIVE HUMAN-IN-THE-LOOP
+   Add a LangGraph interrupt() call before any response is finalized 
+   for the 2 lowest-faithfulness-scoring queries (reuse scores from 
+   experiment 6). Demonstrate the graph actually pausing execution, 
+   accepting a simulated human decision (approve/reject), and 
+   resuming — not a manual simulation, the actual interrupt/resume 
+   mechanism.
+
+3. CHECKPOINTING
+   Use LangGraph's built-in checkpointer (MemorySaver for this 
+   experiment) to persist state at each node. After running 3 
+   queries, demonstrate retrieving the full execution history/state 
+   for one query from the checkpointer — this is the "agent lifecycle 
+   management" and "memory systems" capability the architecture needs.
+
+4. OUTPUT
+   Same output format as experiment 9 (per-query, per-agent 
+   intermediate outputs, final answer) so it's directly diffable 
+   against the CrewAI results.
+
+   Save to results/experiment_9b_langgraph_results.json
+```
