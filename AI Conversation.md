@@ -617,3 +617,29 @@ experiments 9 (CrewAI) and 9b (LangGraph) into a single comparison.
 
    Save to results/experiment_9c_comparison.json
 ```
+
+**The interview-ready answer this produces**
+
+Once you run this, you'll have a first-hand, defensible version of something like: _"CrewAI got me to a working three-agent prototype faster — good for early exploration. But for a production reference architecture, LangGraph's explicit state graph and native interrupt/resume gave me real human-in-the-loop control and checkpointed state recovery, which matters when you're auditing agent decisions in a regulated or enterprise context. I'd default to LangGraph for anything going to production, and reach for CrewAI when I need to validate an agent role structure quickly before committing to the harder architecture."_
+
+That's a precise, evidence-backed answer to exactly the kind of framework-selection judgment question a Principal Architect interview will probe — and it's a materially better answer than knowing either framework alone.
+
+Architected modular production-grade RAG diagrams capturing enterprise failure modes
+
+Good instinct — decomposing into focused diagrams is the right call. A single mega-diagram covering everything from retrieval through multi-agent orchestration would either lose detail or become unreadable. Here are 8 focused Mermaid diagrams, each capturing the production nuances we actually surfaced across all the experiments — including the specific failure modes, thresholds, and edge cases, not just the happy path.
+
+Created 8 files, read a file
+
+Eight diagrams, each named by module number so they read in a natural sequence. Start with **08 (end-to-end overview)** — it's the map that shows how the other seven connect and when each one activates (every query vs. only on low confidence vs. only for complex multi-step queries).
+
+A few things worth noting about what's embedded in these:
+
+**The amber-highlighted nodes are your interview gold** — each one marks a specific production nuance that most candidates wouldn't think to include: the embedding-latency misattribution (Module 1 & 7), the delete-before-upsert ordering to avoid a stale-data coexistence window (Module 1), the cross-encoder degraded-mode fallback (Module 2), and the revision-loop cap to bound cost (Module 6).
+
+**The red nodes mark hard failure states** — the NLI contradiction block and the multi-agent "rejected" terminal state. Both are places where an interviewer is likely to probe "what happens next," and the diagrams already show the answer (escalation, audit logging) rather than leaving it implicit.
+
+**Module 5 is a sequence diagram,** not a flowchart — deliberately, since human-in-the-loop is fundamentally about actor timing (who waits for whom, what happens on timeout) rather than a linear pipeline. This is also your strongest visual for demonstrating the read-vs-write trust separation from the Ingram Micro system design conversation.
+
+Module 6 is a state diagram — this maps directly onto how LangGraph actually models execution, so if you're asked to whiteboard the LangGraph implementation specifically, this diagram's shape is the answer, not just an illustration of it.
+
+One gap to flag honestly: these diagrams reflect the design from your prompts, not yet verified against what your actual experiment runs produced. Once you've run Prompts 6-10, it's worth a quick pass to update any node that turned out to behave differently than designed — the NLI numeric-substitution gap noted in Module 4, for instance, should be updated once you actually see whether experiment_8 catches it or not.
