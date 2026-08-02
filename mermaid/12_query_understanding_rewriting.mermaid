@@ -1,0 +1,33 @@
+%% Module 12: Query Understanding — Rewriting, Expansion & Conditional Heavy Paths
+%% Principal version: cheap path for 80%, expensive tricks gated by intent + ambiguity signals
+flowchart TD
+    RAW["Raw utterance + last 2-3 turns"] --> COREF["Decontextualization (SLM)<br/>'does it cover water damage?' -><br/>'does the device insurance policy<br/>cover water damage?'<br/>MANDATORY for multi-turn"]
+
+    COREF --> GLOSS["Enterprise glossary expansion<br/>deterministic dictionary, not LLM:<br/>'P1' -> 'priority 1 incident'<br/>'RTO' -> 'return to office' vs<br/>'recovery time objective' (namespace-aware)"]
+
+    GLOSS --> SIG["Ambiguity / complexity signals<br/>query length, entity count,<br/>intent confidence from Module 3,<br/>zero-result history for similar queries"]
+
+    SIG --> ROUTE{"Route by signals"}
+
+    ROUTE -->|"~80%: clear, single-intent"| FAST["FAST PATH<br/>single rewritten query -><br/>hybrid retrieval -> skip cross-encoder<br/>if RRF top-1 score >> top-5"]
+
+    ROUTE -->|"ambiguous or exploratory"| MQ["Multi-query expansion (SLM)<br/>3 paraphrases, union results, RRF merge<br/>+ cross-encoder ALWAYS on"]
+
+    ROUTE -->|"comparative / multi-hop<br/>'compare X policy vs Y policy'"| DECOMP["Query decomposition<br/>sub-queries retrieved independently,<br/>joined at synthesis — capped at 4 subs"]
+
+    ROUTE -->|"zero-hit vocabulary gap"| HYDE["HyDE fallback ONLY<br/>hypothetical answer embedded<br/>(V1 mistake: HyDE on every query<br/>= +1 LLM call, +300ms, ~0 gain)"]
+
+    FAST --> RET["To Module 1 retrieval"]
+    MQ --> RET
+    DECOMP --> RET
+    HYDE --> RET
+
+    subgraph FEEDBACK["Closing the loop"]
+        ZR["Zero/low-result queries logged<br/>-> weekly mining -> glossary entries,<br/>synonym map, golden-set candidates"]
+        CLICK["Citation click-through + thumbs<br/>-> rewrite quality signal per path"]
+    end
+    RET -.-> ZR
+
+    style FAST fill:#d1e7dd,stroke:#0f5132
+    style HYDE fill:#fff3cd,stroke:#997404
+    style GLOSS fill:#d1e7dd,stroke:#0f5132

@@ -1,0 +1,36 @@
+%% Module 17: Drift & Change Management — models, corpus, embeddings, org
+%% Principal version: every dependency that can change silently gets a detector + a playbook
+flowchart TD
+    subgraph DETECT["Drift Detectors (Module 7 feeds all of these)"]
+        D1["MODEL DRIFT<br/>provider silently updates hosted model<br/>-> nightly frozen probe-set run,<br/>alert on score delta > threshold<br/>+ pin model snapshots where offered"]
+        D2["CORPUS DRIFT<br/>doc churn rate, orphaned-owner %,<br/>stale-doc ratio per namespace,<br/>zero-hit query rate rising"]
+        D3["QUERY DRIFT<br/>intent distribution vs 30-day baseline<br/>(new product launch = new vocabulary<br/>the router has never seen)"]
+        D4["EMBEDDING DRIFT<br/>you cannot mix embedding model versions<br/>in one index — detector is simple:<br/>it's a MIGRATION problem, see below"]
+        D5["JUDGE / GUARDRAIL DRIFT<br/>kappa vs human trending down,<br/>guardrail block-rate step change"]
+    end
+
+    D1 --> PLAY["Playbooks (pre-written, rehearsed)"]
+    D2 --> PLAY
+    D3 --> PLAY
+    D5 --> PLAY
+
+    subgraph MIGRATE["Embedding model migration — the big one"]
+        M1["Dual-index: build new index offline<br/>from canonical doc store<br/>(you kept raw text, right? —<br/>re-embedding from chunks-only store<br/>was a V1 disaster)"]
+        M1 --> M2["Shadow retrieval: run both indexes,<br/>compare recall@K on golden set +<br/>live traffic overlap metrics"]
+        M2 --> M3["Cutover by namespace, not big-bang;<br/>old index warm for instant rollback;<br/>semantic cache INVALIDATED (old-model<br/>similarity scores are meaningless)"]
+    end
+    D4 --> M1
+
+    subgraph ORG["Org change absorption (reorgs WILL happen yearly)"]
+        O1["Ownership = team ID from org-chart<br/>service, resolved at read time —<br/>never a person's name in metadata"]
+        O2["Reorg event -> bulk remap job:<br/>acl group swaps, owner reassign,<br/>orphaned-doc report to new leads<br/>(docs with no living owner rot fastest)"]
+        O3["Glossary re-review: team/product<br/>renames break acronym expansion<br/>and router training labels"]
+    end
+    D2 -.-> O2
+
+    PLAY --> ACTIONS["Typical actions:<br/>re-run Module 14 full eval,<br/>retrain router on fresh labels,<br/>golden set rebalance (Module 13),<br/>rollback via pinned versions"]
+
+    style D1 fill:#fff3cd,stroke:#997404
+    style M3 fill:#fff3cd,stroke:#997404
+    style O1 fill:#d1e7dd,stroke:#0f5132
+    style M1 fill:#d1e7dd,stroke:#0f5132

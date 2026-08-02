@@ -1,0 +1,26 @@
+%% Module 4: Synthesis, NLI Contradiction Check & Structured Output
+flowchart TD
+    CTX["Assembled context — Module 2"] --> SYN["Synthesis LLM<br/>single call, latency budget ~300-400ms"]
+    SYN --> JSONOUT["Structured JSON output<br/>voice / display / sources / confidence"]
+
+    JSONOUT --> INSUFF{"Answer explicitly<br/>contained in context?"}
+    INSUFF -->|"no"| GATE1["Output: INSUFFICIENT_DATA<br/>halt generation, do not guess"]
+    INSUFF -->|"yes"| NLI
+
+    NLI["NLI Contradiction Check<br/>premise = retrieved context<br/>hypothesis = generated answer"] --> NLIRES{"Label?"}
+    NLIRES -->|"contradiction"| BLOCK["BLOCK response<br/>known gap: numeric substitutions<br/>sometimes missed by NLI models"]
+    NLIRES -->|"entailment / neutral"| PII
+
+    PII["PII / compliance scan<br/>redact SSN-like patterns, etc."] --> JUDGE["LLM-as-Judge scoring<br/>faithfulness, relevance,<br/>ctx precision, ctx recall"]
+
+    JUDGE --> THRESH{"Faithfulness >= 0.70<br/>AND ctx recall >= 0.60?"}
+    THRESH -->|"no"| ESCALATE["To Module 5 — Human-in-the-Loop"]
+    THRESH -->|"yes"| APPROVE["Auto-approved response<br/>to TTS / display surfaces"]
+
+    GATE1 --> ESCALATE
+    BLOCK --> ESCALATE
+
+    style BLOCK fill:#f8d7da,stroke:#842029
+    style GATE1 fill:#fff3cd,stroke:#997404
+    style ESCALATE fill:#fff3cd,stroke:#997404
+    style APPROVE fill:#d1e7dd,stroke:#0f5132

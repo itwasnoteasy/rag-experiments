@@ -1,0 +1,43 @@
+%% Module 6: Multi-Agent Orchestration — LangGraph State Machine
+stateDiagram-v2
+    [*] --> Retriever
+
+    Retriever: Retriever Node
+    Retriever: calls Module 1+2 pipeline
+    Retriever --> Analyst
+
+    Analyst: Analyst Node
+    Analyst: drafts answer, flags gaps in confidence
+    Analyst --> Reviewer
+
+    Reviewer: Reviewer Node
+    Reviewer: runs NLI check from Module 4
+    Reviewer --> Decision
+
+    state Decision <<choice>>
+    Decision --> Analyst: FAIL, revision_count < 1 — revise with feedback
+    Decision --> HumanInterrupt: FAIL, revision_count >= 1
+    Decision --> End: PASS
+
+    HumanInterrupt: interrupt() pauses execution,\nstate persisted via checkpointer
+    state HumanChoice <<choice>>
+    HumanInterrupt --> HumanChoice: human responds
+    HumanChoice --> End: approved
+    HumanChoice --> Blocked: rejected
+
+    Blocked: Response blocked, logged, not delivered
+    Blocked --> [*]
+    End --> [*]
+
+    note right of HumanInterrupt
+        Checkpointer (MemorySaver) persists
+        full state at every node — enables
+        crash recovery and audit of exact
+        execution path per query
+    end note
+
+    note right of Analyst
+        revision_count capped at 1 to bound
+        latency/cost — unbounded loops are
+        a real production risk
+    end note

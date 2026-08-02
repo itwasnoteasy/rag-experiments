@@ -1,0 +1,42 @@
+%% Module 13: Golden Dataset Lifecycle — build, version, auto-refresh
+%% Principal version: dataset is a versioned, owned, continuously-mined asset — not a spreadsheet
+flowchart TD
+    subgraph SOURCING["Sourcing (three streams, weighted)"]
+        SME["SME-authored seeds (~20%)<br/>high quality, expensive, goes stale"]
+        PROD["Production trace mining (~60%)<br/>escalations, thumbs-down, zero-hit,<br/>judge-vs-human disagreements —<br/>hard cases, real distribution"]
+        SYNTH["Synthetic gen (~20%)<br/>LLM generates Q from chunks +<br/>adversarial variants (negation,<br/>date traps, cross-namespace bait)<br/>ALWAYS human-spot-checked 10%"]
+    end
+
+    SME --> LABEL
+    PROD --> LABEL
+    SYNTH --> LABEL
+
+    LABEL["Labeling contract per item:<br/>query, expected_doc_ids (retrieval GT),<br/>expected_answer_facts (NOT verbatim string),<br/>expected_trajectory (for agent evals),<br/>refusal_expected?, pii_expected?,<br/>namespace, difficulty, source_doc_versions[]"]
+
+    LABEL --> REVIEW{"Dual review for<br/>regulated namespaces;<br/>single review elsewhere"}
+    REVIEW --> DS[("Golden Dataset vN<br/>git + DVC/LakeFS versioned,<br/>PR-reviewed like code,<br/>owner per namespace slice")]
+
+    subgraph AUTOREFRESH["Automated staleness handling — the part everyone skips"]
+        DOCHASH["Nightly job: source_doc_versions[]<br/>vs current corpus hashes"]
+        DOCHASH --> STALE{"Underlying doc<br/>changed or deleted?"}
+        STALE -->|"changed"| REGEN["Auto-regenerate expected_facts via<br/>frontier LLM against NEW doc version<br/>-> queued for human confirm<br/>(auto-approve only if diff is trivial)"]
+        STALE -->|"deleted"| RETIRE["Item auto-retired to archive<br/>+ replacement mined from prod queue"]
+        STALE -->|"unchanged"| KEEP["Keep — bump verified_at"]
+    end
+
+    DS -.-> DOCHASH
+    REGEN --> DS
+    RETIRE --> DS
+
+    subgraph HYGIENE["Dataset hygiene gates"]
+        H1["Distribution audit monthly:<br/>dataset intent mix vs prod intent mix<br/>drift > 15% -> rebalance ticket"]
+        H2["Leakage check: golden queries<br/>excluded from few-shot prompts,<br/>fine-tune sets, and semantic cache"]
+        H3["Difficulty decay check: if pass rate<br/>> 98% for 3 releases, item too easy —<br/>rotate to smoke set, mine harder ones"]
+    end
+
+    DS --> CI["Consumed by Module 14 CI/CD gates<br/>pinned dataset version per release<br/>(evals reproducible or they're noise)"]
+
+    style REGEN fill:#fff3cd,stroke:#997404
+    style RETIRE fill:#fff3cd,stroke:#997404
+    style DS fill:#d1e7dd,stroke:#0f5132
+    style PROD fill:#d1e7dd,stroke:#0f5132

@@ -1,0 +1,31 @@
+%% Module 8: End-to-End System Overview — ties Modules 1-7 together
+flowchart TD
+    IN["User query — voice/text"] --> M3["Module 3<br/>Intent Classification & Routing"]
+    M3 --> M1["Module 1<br/>Ingestion-backed Hybrid Retrieval"]
+    M1 --> M2["Module 2<br/>Cross-Encoder Re-ranking"]
+    M2 --> M4["Module 4<br/>Synthesis + NLI Guardrails"]
+
+    M4 --> GATE{"Auto-approved?"}
+    GATE -->|"no"| M5["Module 5<br/>Human-in-the-Loop"]
+    GATE -->|"yes"| OUT1["Response delivered"]
+    M5 --> OUT2["Response delivered<br/>post human decision"]
+
+    M4 -.->|"optionally routed through"| M6["Module 6<br/>Multi-Agent Orchestration<br/>LangGraph — complex,<br/>multi-step queries only"]
+    M6 -.-> M5
+
+    M1 -.-> M7["Module 7<br/>Observability, Cost & Drift"]
+    M2 -.-> M7
+    M3 -.-> M7
+    M4 -.-> M7
+    M5 -.-> M7
+    M6 -.-> M7
+
+    subgraph LEGEND["Legend"]
+        L1["Modules 1-4: run for every query"]
+        L2["Module 5: only low-confidence outputs or write-actions"]
+        L3["Module 6: only complex, multi-step queries"]
+        L4["Module 7: cross-cutting, always-on observability"]
+    end
+
+    style M7 fill:#e7e7ff,stroke:#5555aa
+    style M6 fill:#f5f5f5,stroke:#999,stroke-dasharray: 5 5

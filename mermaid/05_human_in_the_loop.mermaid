@@ -1,0 +1,42 @@
+%% Module 5: Human-in-the-Loop — Read vs Write Trust Separation
+sequenceDiagram
+    participant U as User/Agent
+    participant O as Orchestrator
+    participant G as Guardrail Service
+    participant Q as Escalation Queue
+    participant H as Human Reviewer
+    participant A as Action Executor
+    participant L as Audit Log
+
+    U->>O: Query / requested action
+    O->>G: Evaluate response (Module 4 scores)
+
+    alt Read action, high confidence
+        G-->>O: Auto-approved
+        O->>U: Response delivered immediately
+        O->>L: Log (auto-approved, no human)
+    else Read action, low confidence
+        G-->>O: Needs review
+        O->>Q: Enqueue draft_answer, reason, timestamp
+        Q->>H: Notify reviewer
+        H-->>Q: Approve / Reject (or timeout)
+        alt Timeout — SLA breach
+            Q->>O: Default to safe fallback response
+            O->>L: Log (escalated, timed out, fallback used)
+        else Reviewed in time
+            Q->>O: Decision
+            O->>U: Reviewed response delivered
+            O->>L: Log (escalated, human decision recorded)
+        end
+    else Write action e.g. file claim, update account
+        G->>O: Generate PROPOSED DIFF, not executed yet
+        O->>U: Show diff, request confirmation
+        U-->>O: Confirm / Reject
+        alt Confirmed
+            O->>A: Execute with idempotency key<br/>prevents double-execution on retry
+            A-->>O: Execution result
+            O->>L: Log (proposed, confirmed, executed)
+        else Rejected
+            O->>L: Log (proposed, rejected, not executed)
+        end
+    end

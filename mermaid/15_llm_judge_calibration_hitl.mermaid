@@ -1,0 +1,36 @@
+%% Module 15: LLM-as-Judge — Calibration, Bias Control & HITL Coupling
+%% Principal version: the judge is itself a model under eval — never trusted uncalibrated
+flowchart TD
+    RESP["Candidate response + retrieved context"] --> JUDGE["Judge ensemble<br/>rubric-decomposed prompts:<br/>faithfulness, answer-fact recall,<br/>ctx precision/recall, tone/compliance<br/>ONE criterion per call, binary/3-point<br/>(1-10 scales = noise)"]
+
+    JUDGE --> BIAS["Bias controls baked in:<br/>position swap on pairwise (A/B then B/A),<br/>length-normalized scoring,<br/>judge model != policy model family<br/>(self-preference bias),<br/>chain-of-thought BEFORE verdict,<br/>temperature 0 + pinned model version"]
+
+    BIAS --> SCORES["Per-criterion verdicts + rationale"]
+
+    subgraph CALIB["Calibration loop — makes the judge trustworthy"]
+        HSAMPLE["Human labels: weekly stratified sample<br/>~100-200 items, oversample<br/>near-threshold + judge-uncertain cases"]
+        HSAMPLE --> KAPPA{"Judge vs human agreement<br/>Cohen's kappa >= 0.7 per criterion?"}
+        KAPPA -->|"no"| FIXJ["Rubric rewrite w/ contrastive examples,<br/>few-shot from disagreement cases,<br/>or split criterion in two —<br/>judge changes go through Module 14 CI<br/>against a frozen human-labeled meta-set"]
+        KAPPA -->|"yes"| CERT["Judge version certified for release gating<br/>+ agreement tracked as a dashboard SLO"]
+        FIXJ --> HSAMPLE
+    end
+
+    SCORES -.-> HSAMPLE
+
+    subgraph RUNTIME["Runtime coupling to HITL (Module 5)"]
+        BAND{"Score bands"}
+        SCORES --> BAND
+        BAND -->|"high, all pass"| AUTO["Auto-approve<br/>(still 2% random human audit —<br/>catches judge blind spots)"]
+        BAND -->|"gray zone"| HQ["Human review queue<br/>reviewer sees judge rationale +<br/>highlighted context spans, decision<br/>in ~30s vs ~3min cold"]
+        BAND -->|"hard fail"| BLOCK["Block / regenerate at higher tier<br/>(Module 11 escalation)"]
+        HQ --> HL["Every human decision logged as<br/>a labeled example -> feeds calibration<br/>AND golden dataset (Module 13)"]
+    end
+
+    subgraph DRIFTJ["Judge drift watch"]
+        JD["Judge model provider update -><br/>re-run frozen meta-set, compare kappa<br/>BEFORE accepting new judge version<br/>(judges drift too — silent gate rot)"]
+    end
+
+    style FIXJ fill:#fff3cd,stroke:#997404
+    style BLOCK fill:#f8d7da,stroke:#842029
+    style CERT fill:#d1e7dd,stroke:#0f5132
+    style HL fill:#d1e7dd,stroke:#0f5132

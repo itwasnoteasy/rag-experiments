@@ -1,0 +1,27 @@
+%% Module 14: CI/CD Eval Gates — GitHub Actions offline testing + progressive delivery
+%% Principal version: layered gates by cost, component-level evals, canary with online judge
+flowchart TD
+    PR["PR: prompt / retrieval config /<br/>model version / chunking change<br/>(ALL of these are 'code' — versioned,<br/>reviewed, no prompt edits in prod console)"] --> L0
+
+    subgraph GHA["GitHub Actions — offline, against pinned golden dataset vN"]
+        L0["Gate 0 (every commit, ~2 min, $0)<br/>prompt lint, JSON schema validation,<br/>PII regex unit tests, tool-schema<br/>contract tests, glossary integrity"]
+        L0 --> L1["Gate 1 — Retrieval eval (~5 min, cheap)<br/>recall@5, recall@20, MRR, nDCG<br/>vs expected_doc_ids — NO LLM needed<br/>fails fast, isolates retrieval regressions"]
+        L1 --> L2["Gate 2 — Component evals (~10 min)<br/>rewriter: decontextualization accuracy<br/>router: intent F1 per class<br/>NLI gate: contradiction catch rate<br/>PII eval: leak rate on seeded canaries = 0"]
+        L2 --> L3["Gate 3 — E2E smoke (~15 min, LLM $)<br/>150-300 item stratified subset<br/>faithfulness / answer-fact recall via judge<br/>+ refusal correctness (over-refusal counts!)"]
+        L3 --> L4["Gate 4 — Trajectory eval (agents)<br/>expected tool sequence match (loose order),<br/>no forbidden tools, step count <= budget,<br/>args validity, recovery-from-tool-error cases"]
+    end
+
+    L4 --> THRESH{"Regression policy:<br/>hard floor (faithfulness >= 0.85)<br/>AND no metric drops > 2 pts vs main<br/>AND PII leaks == 0 (absolute)"}
+    THRESH -->|"fail"| BLOCKPR["PR blocked — report comments<br/>per-item diffs, not just aggregates<br/>(aggregate can hide a new failure class)"]
+    THRESH -->|"pass"| FULL["Nightly: FULL golden set +<br/>adversarial set + cost/latency budget check<br/>(too expensive per-PR)"]
+
+    FULL --> SHADOW["Shadow deploy: new config runs on<br/>mirrored prod traffic, answers NOT served<br/>compare judge scores old vs new, 24-48h"]
+    SHADOW --> CANARY["Canary 5% real traffic<br/>online judge sampling + guardrail-block<br/>rate + escalation rate as SLOs"]
+    CANARY --> ROLL{"SLOs healthy 24h?"}
+    ROLL -->|"no"| AUTOREVERT["Auto-revert + incident ticket<br/>with trace links (Module 7)"]
+    ROLL -->|"yes"| GA["Progressive rollout 25/50/100%"]
+
+    style BLOCKPR fill:#f8d7da,stroke:#842029
+    style AUTOREVERT fill:#f8d7da,stroke:#842029
+    style L1 fill:#d1e7dd,stroke:#0f5132
+    style SHADOW fill:#d1e7dd,stroke:#0f5132

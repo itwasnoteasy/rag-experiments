@@ -1,0 +1,37 @@
+%% Module 7: Observability, Cost Attribution & Drift Detection
+flowchart TD
+    UTT["User utterance"] --> TRACE["Langfuse: new parent trace"]
+
+    TRACE --> S1["Span: intent-classification"]
+    TRACE --> S2["Span: embedding-generation<br/>often confused with retrieval latency —<br/>separate span prevents mis-diagnosis"]
+    TRACE --> S3["Span: retrieval — dense+sparse+RRF"]
+    TRACE --> S4["Span: cross-encoder-rerank"]
+    TRACE --> S5["Span: synthesis — token in/out + cost"]
+    TRACE --> S6["Span: NLI-guardrail-check"]
+    TRACE --> S7["Span: llm-as-judge-scoring"]
+
+    S1 --> AGG["Aggregate trace"]
+    S2 --> AGG
+    S3 --> AGG
+    S4 --> AGG
+    S5 --> AGG
+    S6 --> AGG
+    S7 --> AGG
+
+    AGG --> COST["Cost attribution per span<br/>which stage is expensive?"]
+    AGG --> LAT["Latency breakdown per span<br/>which stage is slow?"]
+    AGG --> SAMPLE{"Sample ~5% of<br/>production traffic"}
+
+    SAMPLE -->|"sampled"| JUDGESCORE["Continuous LLM-as-judge<br/>quality scoring"]
+    JUDGESCORE --> ROLLING["Rolling window:<br/>faithfulness pass rate"]
+
+    ROLLING --> DRIFT{"Pass rate dropping<br/>below threshold?"}
+    DRIFT -->|"yes"| ALERT["Drift alert — investigate:<br/>prompt change? corpus staleness?<br/>model update?"]
+    DRIFT -->|"no"| OK["Nominal — continue monitoring"]
+
+    COST --> DASH["Cost / Quality Dashboard"]
+    LAT --> DASH
+    ROLLING --> DASH
+
+    style S2 fill:#fff3cd,stroke:#997404
+    style ALERT fill:#f8d7da,stroke:#842029

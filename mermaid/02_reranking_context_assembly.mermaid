@@ -1,0 +1,21 @@
+%% Module 2: Cross-Encoder Re-ranking & Context Window Assembly
+flowchart TD
+    TOPK["Top-K candidates from Module 1<br/>e.g. top 10 by RRF score"] --> CE["Cross-Encoder Re-ranking<br/>joint query+doc scoring"]
+
+    CE --> AVAIL{"Cross-encoder<br/>service healthy?"}
+    AVAIL -->|"timeout / down"| FALLBACK["Fallback: serve RRF order directly<br/>skip re-ranking — degraded mode"]
+    AVAIL -->|"healthy"| SCORE["Hard relevance scores<br/>~100-200ms added latency"]
+
+    SCORE --> ORDER["Order by score DESC<br/>highest-relevance chunk FIRST<br/>mitigates 'lost-in-middle' bias"]
+
+    ORDER --> BUDGET{"Fits token budget?<br/>e.g. top 2-3 chunks"}
+    BUDGET -->|"exceeds"| TRIM["Trim to budget,<br/>keep highest-scored chunks only"]
+    BUDGET -->|"fits"| ASSEMBLE
+
+    TRIM --> ASSEMBLE["Assemble final context<br/>+ source chunk IDs for citation"]
+    FALLBACK --> ASSEMBLE
+
+    ASSEMBLE --> OUT["Context to Module 4 — Synthesis"]
+
+    style FALLBACK fill:#fff3cd,stroke:#997404
+    style ORDER fill:#d1e7dd,stroke:#0f5132

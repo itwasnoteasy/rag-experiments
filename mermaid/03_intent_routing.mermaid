@@ -1,0 +1,22 @@
+%% Module 3: Intent Classification & Confidence-Gated Routing
+flowchart TD
+    RAW["Raw user utterance +<br/>last 2 turns of history"] --> BERT["Lightweight BERT classifier<br/>~20-40ms, not a full LLM call"]
+
+    BERT --> CONF{"Confidence >= 0.70?"}
+    CONF -->|"yes"| NS["Route to specific product namespace<br/>e.g. device_insurance vs smb_onboarding"]
+    CONF -->|"no — ambiguous"| FULL["Fallback: full LLM path<br/>with complete conversation context<br/>no forced misclassification"]
+
+    NS --> ISOLATE["Namespace-isolated retrieval<br/>prevents cross-product<br/>terminology contamination"]
+    FULL --> BROAD["Broad / cross-namespace retrieval"]
+
+    ISOLATE --> NEXT["To Module 1 — Retrieval"]
+    BROAD --> NEXT
+
+    subgraph PATENT["Patent-pending layer"]
+        ROUTE2["Routing informed by session state,<br/>not just single-utterance classification"]
+    end
+    BERT -.-> ROUTE2
+    ROUTE2 -.-> CONF
+
+    style FULL fill:#fff3cd,stroke:#997404
+    style ISOLATE fill:#d1e7dd,stroke:#0f5132

@@ -1,0 +1,49 @@
+%% Module 9: Enterprise Connector Fabric — Confluence / Jira / DBs / APIs
+%% Principal version: incremental sync, tombstones, schema-drift quarantine, per-source SLAs
+flowchart TD
+    subgraph SOURCES["Heterogeneous Enterprise Sources"]
+        CONF["Confluence<br/>webhooks + nightly reconcile crawl<br/>(webhooks silently drop ~1-2%)"]
+        JIRA["Jira<br/>JQL incremental: updated > last_sync<br/>NOT full project export"]
+        SP["SharePoint / Drive<br/>delta API + change tokens"]
+        SQL["Operational DBs<br/>CDC via Debezium — never<br/>SELECT * polling on prod replica"]
+        API3["3rd-party REST APIs<br/>no webhooks — ETag / If-Modified-Since<br/>polling with per-vendor rate budgets"]
+        WIKI["Legacy wiki / file shares<br/>scheduled crawl, low freshness SLA"]
+    end
+
+    CONF --> NORM
+    JIRA --> NORM
+    SP --> NORM
+    SQL --> NORM
+    API3 --> NORM
+    WIKI --> NORM
+
+    NORM["Canonical Document Model<br/>doc_id, source, acl_ids[], owner_team,<br/>effective_date, content_hash, schema_ver"]
+
+    NORM --> DEDUP{"content_hash<br/>changed?"}
+    DEDUP -->|"no"| SKIP["Skip — touch last_seen only<br/>(saves ~70% of embedding spend)"]
+    DEDUP -->|"yes"| VALID
+
+    VALID{"Schema / contract<br/>validation passes?"}
+    VALID -->|"no"| QUAR["Quarantine queue + alert<br/>source team notified<br/>NEVER index malformed docs"]
+    VALID -->|"yes"| ENRICH
+
+    ENRICH["Enrichment<br/>glossary/acronym tagging,<br/>owner resolution via org-chart service,<br/>doc-type classifier"]
+    ENRICH --> PIPE["To Module 1 chunk/embed pipeline"]
+
+    subgraph LIFECYCLE["Deletion & Movement — where V1 designs fail"]
+        RECON["Nightly reconcile:<br/>source listing vs index listing"]
+        RECON --> TOMB["Tombstone missing docs<br/>soft-delete 7 days, then purge<br/>(handles restores after accidental deletes)"]
+        RECON --> MOVED["Space/project moved (reorg)?<br/>doc_id stable — remap acl_ids + owner,<br/>NO re-embed needed"]
+    end
+
+    NORM -.-> RECON
+
+    subgraph OPS["Per-source Ops Contract"]
+        SLA["Freshness SLA per source:<br/>Jira 5m, Confluence 15m,<br/>DB CDC ~1m, wiki 24h"]
+        BACKP["Backpressure: per-source queue +<br/>circuit breaker so one flapping<br/>connector can't starve the rest"]
+    end
+
+    style QUAR fill:#f8d7da,stroke:#842029
+    style TOMB fill:#fff3cd,stroke:#997404
+    style SKIP fill:#d1e7dd,stroke:#0f5132
+    style MOVED fill:#fff3cd,stroke:#997404

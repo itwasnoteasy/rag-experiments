@@ -1,0 +1,34 @@
+%% Module 16: Tool / Action Layer — Internal & 3rd-Party API Integration for Agents
+%% Principal version: agents never call raw APIs — they call governed, typed tools
+flowchart TD
+    AGENT["Agent (Module 6) emits tool call"] --> REG["Tool Registry<br/>versioned JSON schema per tool,<br/>owner team, risk class (read/write/irreversible),<br/>cost + latency budget, allowed namespaces<br/>— tools onboarded via PR, not ad-hoc"]
+
+    REG --> AUTHZ{"Tool-level RBAC:<br/>is THIS user allowed THIS tool<br/>on THIS resource?<br/>(agent runs as user, on-behalf-of token —<br/>NEVER a god-mode service account)"}
+    AUTHZ -->|"deny"| DENY["Refuse + log — agent told<br/>'not permitted' so it can replan,<br/>not hallucinate success"]
+    AUTHZ -->|"allow"| VALARG
+
+    VALARG["Argument validation<br/>schema + semantic checks:<br/>date ranges sane, IDs exist,<br/>enum values from live lookup<br/>(LLMs fabricate plausible IDs)"]
+    VALARG -->|"invalid"| REPAIR["One repair round-trip to SLM<br/>with validator error, then fail"]
+    VALARG -->|"valid"| RISK{"Risk class?"}
+
+    RISK -->|"read"| EXEC
+    RISK -->|"write"| DIFF["Proposed-diff + HITL confirm<br/>(Module 5) + idempotency key"]
+    RISK -->|"irreversible (payment, delete,<br/>external email)"| TWOMAN["Two-person rule or<br/>hard allowlist — some tools<br/>agents simply never get"]
+    DIFF --> EXEC
+    TWOMAN --> EXEC
+
+    EXEC["Execution proxy per vendor:<br/>timeout, retry w/ jitter,<br/>circuit breaker, per-tenant rate budget,<br/>response size cap (a 4MB Jira response<br/>will blow the context window)"]
+
+    EXEC --> SANITIZE["Response sanitization:<br/>strip PII fields not needed,<br/>truncate + summarize via SLM,<br/>PROMPT-INJECTION SCAN on 3rd-party<br/>content before it re-enters the agent<br/>(ticket text = untrusted input)"]
+
+    SANITIZE --> AGENT2["Back to agent state<br/>+ full span in Module 7 trace"]
+
+    subgraph DRIFTAPI["API drift management"]
+        CONTRACT["Nightly contract tests against<br/>vendor sandboxes — catch silent<br/>schema changes before agents do"]
+        VERPIN["Tool schema version pinned per release;<br/>vendor v2 migration = new tool version,<br/>both live during transition"]
+    end
+
+    style DENY fill:#fff3cd,stroke:#997404
+    style TWOMAN fill:#f8d7da,stroke:#842029
+    style SANITIZE fill:#d1e7dd,stroke:#0f5132
+    style REG fill:#d1e7dd,stroke:#0f5132

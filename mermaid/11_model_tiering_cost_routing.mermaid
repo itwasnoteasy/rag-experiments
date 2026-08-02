@@ -1,0 +1,40 @@
+%% Module 11: Model Tiering — SLM vs Mid-tier vs Frontier LLM Routing
+%% Principal version: route by task contract + risk, cascade with quality gate, cache first
+flowchart TD
+    REQ["Incoming task"] --> CACHE{"Semantic cache hit?<br/>embedding sim >= 0.95<br/>+ same namespace + same acl scope"}
+    CACHE -->|"hit (~15-25% of traffic)"| SERVE0["Serve cached answer<br/>cost ~= $0, latency ~= 20ms"]
+    CACHE -->|"miss"| CLASSIFY
+
+    CLASSIFY["Task contract classifier<br/>(rules + small model, not frontier LLM)"]
+
+    CLASSIFY --> T1["DETERMINISTIC TIER — no LLM<br/>intent classification: fine-tuned BERT<br/>PII regex/NER, routing, dedup<br/>~1-40ms, fractions of a cent"]
+    CLASSIFY --> T2["SLM TIER (1-8B, self-hosted GPU pool)<br/>query rewrite, entity extraction,<br/>summarize-per-chunk, format conversion,<br/>NLI check, tool-arg extraction"]
+    CLASSIFY --> T3["MID LLM TIER (Haiku/Sonnet-class)<br/>standard grounded Q&A synthesis,<br/>single-tool agent steps,<br/>bulk offline jobs via Batch API (-50%)"]
+    CLASSIFY --> T4["FRONTIER TIER (Opus/GPT-5-class)<br/>multi-step agent planning, cross-doc<br/>reasoning, low-confidence escalation,<br/>write-action proposals, judge-of-judges"]
+
+    T2 --> GATE2{"Self-check / confidence<br/>gate on SLM output"}
+    GATE2 -->|"low confidence (~8-12%)"| T3
+    GATE2 -->|"pass"| DONE["Return"]
+
+    T3 --> GATE3{"Module 4 guardrail scores<br/>faithfulness / judge score"}
+    GATE3 -->|"fail once"| T4
+    GATE3 -->|"pass"| DONE
+    T4 --> DONE
+    T1 --> DONE
+
+    subgraph ECON["Cost levers that actually moved the bill"]
+        E1["Prompt caching: static system prompt +<br/>tool schemas + glossary as cached prefix<br/>(-60-90% input cost on agent loops)"]
+        E2["Context discipline: top 2-3 reranked<br/>chunks, not top 10 — tokens ARE the bill"]
+        E3["Output caps + structured JSON<br/>(output tokens cost 4-5x input)"]
+        E4["Escalate-on-fail cascade beats<br/>route-perfectly-upfront: 100% frontier<br/>quality on ~20% frontier spend"]
+    end
+
+    subgraph RISKRULES["Hard overrides (risk beats cost)"]
+        R1["Write actions / irreversible ops<br/>ALWAYS frontier + HITL (Module 5)"]
+        R2["Regulated content (HR, legal, finance)<br/>minimum mid-tier + full guardrail chain"]
+        R3["Provider outage: cross-provider fallback<br/>same tier, prompt-portability tested in CI"]
+    end
+
+    style SERVE0 fill:#d1e7dd,stroke:#0f5132
+    style T4 fill:#f8d7da,stroke:#842029
+    style E4 fill:#d1e7dd,stroke:#0f5132

@@ -1,0 +1,37 @@
+%% Module 10: RBAC & Permission-Aware Retrieval
+%% Principal version: filter-at-query + late-binding recheck; ACLs synced, never copied into chunks
+flowchart TD
+    subgraph IDP["Identity Plane"]
+        SSO["SSO / OIDC token<br/>user_id + group claims"]
+        GS["Group membership service<br/>cached 5-15 min TTL<br/>(reorg = mass group churn)"]
+        SSO --> GS
+    end
+
+    subgraph ACLSYNC["ACL Sync Plane (async)"]
+        SRCACL["Source ACLs<br/>Confluence space perms,<br/>Jira project roles, DB row policies"]
+        SRCACL --> ACLIDX["acl_ids[] stored on doc metadata<br/>as GROUP references, not user lists<br/>(user lists go stale in days)"]
+        ACLIDX --> VDB[("Vector DB<br/>metadata-filterable index")]
+    end
+
+    Q["User query + resolved groups"] --> PREF["Pre-filter: retrieval query includes<br/>acl_ids IN user_groups<br/>filter-at-query, NOT post-filter"]
+    GS --> PREF
+    PREF --> VDB
+    VDB --> CAND["Candidate chunks"]
+
+    CAND --> POSTF{"Post-retrieval spot-check:<br/>doc still readable per<br/>LIVE source ACL? (sampled +<br/>always for sensitive labels)"}
+    POSTF -->|"revoked since last sync"| DROPX["Drop chunk + emit acl_staleness metric<br/>triggers targeted ACL resync"]
+    POSTF -->|"ok"| CTX["To context assembly (Module 2)"]
+
+    CTX --> LATE{"LATE-BINDING CHECK<br/>at synthesis time:<br/>every cited doc_id re-authorized<br/>against current token"}
+    LATE -->|"any fail"| REDACTX["Remove chunk, re-synthesize<br/>or return INSUFFICIENT_DATA<br/>never 'You don't have access to doc X'<br/>(title itself can leak)"]
+    LATE -->|"pass"| OUT["Answer + citations user can open"]
+
+    subgraph TRAPS["Failure modes this design exists for"]
+        T1["Post-filtering top-K after retrieval:<br/>authorized user gets 0 results because<br/>top-50 were all docs they can't see"]
+        T2["Aggregation leak: answer synthesized<br/>from restricted doc even though<br/>citation was stripped"]
+        T3["Reorg day: 10k users change groups;<br/>TTL caches + group-based ACLs absorb it,<br/>user-level ACL copies would not"]
+    end
+
+    style DROPX fill:#fff3cd,stroke:#997404
+    style REDACTX fill:#f8d7da,stroke:#842029
+    style LATE fill:#d1e7dd,stroke:#0f5132

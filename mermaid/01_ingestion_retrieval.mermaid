@@ -1,0 +1,40 @@
+%% Module 1: Ingestion, Chunking & Hybrid Retrieval
+flowchart TD
+    subgraph SRC["Source Systems"]
+        DOC["Policy / Knowledge Documents"]
+        WH["Change Webhook (Confluence / Drive)"]
+    end
+
+    DOC --> WH
+    WH --> FILTER{"Event type filter:<br/>content edit vs.<br/>metadata-only change"}
+    FILTER -->|"metadata only"| IGNORE["Ignored — no re-index"]
+    FILTER -->|"content changed"| FETCH["Fetch updated document only<br/>(not full corpus rebuild)"]
+
+    FETCH --> CHUNK["Semantic chunking<br/>~10% overlap between chunks"]
+    CHUNK --> CHUNKID["Chunk ID = hash(doc_id + seq_num)<br/>deterministic, idempotent"]
+
+    CHUNKID --> EMBED["Embedding generation<br/>rate-limited API — retry w/ backoff<br/>often mis-attributed as 'retrieval latency'"]
+
+    EMBED --> DELFIRST["Delete ALL existing chunks<br/>for this doc_id FIRST"]
+    DELFIRST --> UPSERT["Upsert fresh chunks<br/>+ effective_date metadata"]
+
+    UPSERT --> VDB[("Vector DB<br/>dense index")]
+    CHUNKID --> BM25IDX[("BM25 Sparse Index")]
+
+    subgraph RUNTIME["Query-time Retrieval"]
+        Q["Incoming rewritten query"]
+        Q --> DENSE["Dense similarity search"]
+        Q --> SPARSE["BM25 keyword search"]
+        VDB --> DENSE
+        BM25IDX --> SPARSE
+        DENSE --> RRF["Reciprocal Rank Fusion<br/>score = sum of 1/(k+rank), k=60"]
+        SPARSE --> RRF
+        RRF --> FILT2{"effective_date <= now()?"}
+        FILT2 -->|"no — future/superseded"| DROP["Drop from results"]
+        FILT2 -->|"yes"| TOPK["Top-K candidates to Module 2"]
+    end
+
+    style IGNORE fill:#f5f5f5,stroke:#999
+    style DROP fill:#f5f5f5,stroke:#999
+    style EMBED fill:#fff3cd,stroke:#997404
+    style DELFIRST fill:#fff3cd,stroke:#997404
