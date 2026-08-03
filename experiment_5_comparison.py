@@ -129,7 +129,7 @@ def build_dense_index(corpus):
     """Embed all documents into a ChromaDB in-memory collection."""
     model = SentenceTransformer("all-MiniLM-L6-v2")
     client = chromadb.Client()  # ephemeral, in-memory
-    collection = client.create_collection("exp5")
+    collection = client.get_or_create_collection("exp5")
     texts = [d["content"] for d in corpus]
     ids   = [d["id"]      for d in corpus]
     embs  = model.encode(texts, show_progress_bar=False).tolist()

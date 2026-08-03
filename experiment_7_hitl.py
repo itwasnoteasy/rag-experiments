@@ -165,7 +165,7 @@ WRITE_TEST_CASES = [
 def build_dense_index(corpus):
     model  = SentenceTransformer("all-MiniLM-L6-v2")
     client = chromadb.Client()
-    coll   = client.create_collection("exp7")
+    coll   = client.get_or_create_collection("exp7")
     texts  = [d["content"] for d in corpus]
     ids    = [d["id"]      for d in corpus]
     embs   = model.encode(texts, show_progress_bar=False).tolist()

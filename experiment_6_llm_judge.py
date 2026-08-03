@@ -185,7 +185,7 @@ DIMENSIONS = [
 def build_dense_index(corpus):
     model  = SentenceTransformer("all-MiniLM-L6-v2")
     client = chromadb.Client()
-    coll   = client.create_collection("exp6")
+    coll   = client.get_or_create_collection("exp6")
     texts  = [d["content"] for d in corpus]
     ids    = [d["id"]      for d in corpus]
     embs   = model.encode(texts, show_progress_bar=False).tolist()
