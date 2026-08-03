@@ -1,0 +1,358 @@
+{
+  "experiment": "experiment_6_llm_judge",
+  "generator_model": "gemini-3.1-flash-lite",
+  "judge_model": "gemini-3.1-flash-lite",
+  "faithfulness_alert": 0.7,
+  "dimensions": [
+    "faithfulness",
+    "answer_relevance",
+    "context_precision",
+    "context_recall"
+  ],
+  "query_results": [
+    {
+      "query_id": "Q01",
+      "query_text": "What is the deductible for a premium smartphone under policy INS-POL-2024?",
+      "query_type": "exact_match",
+      "difficulty": "easy",
+      "expected_doc": "DI-002",
+      "context_doc_ids": [
+        "DI-002",
+        "DI-003"
+      ],
+      "answer": "The provided documents do not state the deductible for a premium smartphone under policy INS-POL-2024. Document 1 specifies that policy INS-POL-2024 relates to legacy plan details, but it does not provide the specific deductible amounts for that policy.",
+      "dim_scores": {
+        "faithfulness": {
+          "score": 1.0,
+          "reasoning": "The retrieved context explicitly states that deductible amounts are listed for specific plans (Basic, Enhanced, Total) and directs the reader to check INS-POL-2024 for legacy plan details, meaning the specific deductible for that policy is not provided in the text."
+        },
+        "answer_relevance": {
+          "score": 1.0,
+          "reasoning": "The answer correctly identifies that the provided context does not contain the specific deductible for the requested policy and accurately explains why."
+        },
+        "context_precision": {
+          "score": 0.5,
+          "reasoning": "The answer correctly draws upon information from Document 1 to explain why the deductible could not be found, while Document 2 provided no relevant information and was clearly noise."
+        },
+        "context_recall": {
+          "score": 1.0,
+          "reasoning": "The retrieved context explicitly states that policy INS-POL-2024 pertains to legacy plans and refers customers to contact support or the policy document itself for those specific details, confirming that the information is not present in the provided text."
+        }
+      },
+      "overall": 0.875
+    },
+    {
+      "query_id": "Q02",
+      "query_text": "How much is the non-return fee if I don't send back my swapped device \u2014 is it $200?",
+      "query_type": "exact_match",
+      "difficulty": "easy",
+      "expected_doc": "DI-004",
+      "context_doc_ids": [
+        "DI-004",
+        "DI-010"
+      ],
+      "answer": "Yes, the non-return fee for failing to send back your damaged device within 10 business days is up to $200. This fee will be charged directly to your account if the device is not returned as required.",
+      "dim_scores": {
+        "faithfulness": {
+          "score": 1.0,
+          "reasoning": "Every claim in the answer is explicitly supported by the statement in Doc 1 that failure to return the damaged device within 10 business days results in a non-return fee of up to $200."
+        },
+        "answer_relevance": {
+          "score": 1.0,
+          "reasoning": "The answer directly confirms the fee amount and provides the necessary context regarding the return timeframe mentioned in the provided documentation."
+        },
+        "context_precision": {
+          "score": 0.5,
+          "reasoning": "The answer relies entirely on information from Doc 1, making Doc 2 irrelevant noise."
+        },
+        "context_recall": {
+          "score": 1.0,
+          "reasoning": "The retrieved context explicitly confirms that the non-return fee is up to $200, which directly validates the user's inquiry."
+        }
+      },
+      "overall": 0.875
+    },
+    {
+      "query_id": "Q03",
+      "query_text": "My handset took a dip in the toilet \u2014 will my protection plan cover the repair?",
+      "query_type": "semantic",
+      "difficulty": "hard",
+      "expected_doc": "DI-005",
+      "context_doc_ids": [
+        "DI-005",
+        "DI-007"
+      ],
+      "answer": "Yes, your protection plan covers accidental liquid immersion, including dropping your device in water. Please ensure the damage was accidental, do not attempt to charge the device, and file your claim within 48 hours.",
+      "dim_scores": {
+        "faithfulness": {
+          "score": 1.0,
+          "reasoning": "Every claim in the answer is directly supported by the provided context in Doc 1."
+        },
+        "answer_relevance": {
+          "score": 1.0,
+          "reasoning": "The answer directly addresses the question by confirming coverage for accidental liquid immersion and provides actionable steps based on the provided documentation."
+        },
+        "context_precision": {
+          "score": 0.5,
+          "reasoning": "The answer relies entirely on information from Doc 1, making Doc 2 irrelevant noise."
+        },
+        "context_recall": {
+          "score": 1.0,
+          "reasoning": "The retrieved context provides all necessary information to determine that accidental liquid immersion is covered and explains the requirements for the user to file a claim."
+        }
+      },
+      "overall": 0.875
+    },
+    {
+      "query_id": "Q04",
+      "query_text": "We're moving our company to a new telecom provider and need to keep our existing contact numbers.",
+      "query_type": "semantic",
+      "difficulty": "hard",
+      "expected_doc": "SMB-009",
+      "context_doc_ids": [
+        "SMB-002",
+        "SMB-009"
+      ],
+      "answer": "To port your existing numbers to our network, you must submit a Port Authorization Code (PAC) or account transfer PIN from your current carrier for each number. You can port up to 100 numbers via the admin portal, which typically takes 5\u20137 business days, or 10 business days for toll-free numbers. Please ensure your current contract allows for porting before you begin the process.",
+      "dim_scores": {
+        "faithfulness": {
+          "score": 1.0,
+          "reasoning": "Every claim in the answer is directly supported by the information provided in the first document of the retrieved context."
+        },
+        "answer_relevance": {
+          "score": 1.0,
+          "reasoning": "The answer directly addresses the user's need by summarizing the specific steps and timelines for porting numbers found in the provided context."
+        },
+        "context_precision": {
+          "score": 0.5,
+          "reasoning": "The answer draws exclusively from information in Doc 1, making Doc 2 irrelevant noise."
+        },
+        "context_recall": {
+          "score": 1.0,
+          "reasoning": "The retrieved context contains all the necessary information to address the user's request regarding moving to a new provider and keeping existing numbers, and the provided answer accurately reflects that information."
+        }
+      },
+      "overall": 0.875
+    },
+    {
+      "query_id": "Q05",
+      "query_text": "How do I add insurance to devices on my account?",
+      "query_type": "ambiguous",
+      "difficulty": "medium",
+      "expected_doc": "DI-006",
+      "context_doc_ids": [
+        "SMB-008",
+        "DI-006"
+      ],
+      "answer": "To add insurance to devices, visit the 'Insurance' section in your account portal or speak with a representative at a retail location. You will need to provide your device's IMEI and agree to the plan terms. Additionally, SMB account holders can enroll multiple devices in bulk through the admin portal under 'Insurance & Protection'.",
+      "dim_scores": {
+        "faithfulness": {
+          "score": 1.0,
+          "reasoning": "All claims made in the answer, including the process for individual enrollment and the specific instructions for SMB bulk enrollment, are directly supported by the provided documents."
+        },
+        "answer_relevance": {
+          "score": 1.0,
+          "reasoning": "The answer directly explains how to add insurance using the provided context, covering both individual and bulk enrollment methods."
+        },
+        "context_precision": {
+          "score": 1.0,
+          "reasoning": "The answer integrates procedural steps from both Doc 1 (the path to the Insurance & Protection section for SMBs) and Doc 2 (the requirement for IMEI and the option for retail locations/bulk enrollment)."
+        },
+        "context_recall": {
+          "score": 1.0,
+          "reasoning": "The retrieved context contains all necessary information, including the location to perform the action, requirements like the IMEI, and the specific procedure for SMB account holders."
+        }
+      },
+      "overall": 1.0
+    },
+    {
+      "query_id": "Q06",
+      "query_text": "What happens when I switch to a different plan mid-month?",
+      "query_type": "ambiguous",
+      "difficulty": "medium",
+      "expected_doc": "SMB-004",
+      "context_doc_ids": [
+        "DI-007",
+        "SMB-003"
+      ],
+      "answer": "When you switch to a different business plan, the change takes effect at the start of the next billing cycle. The provided documents do not contain information regarding how plan changes mid-month affect billing or other account types.",
+      "dim_scores": {
+        "faithfulness": {
+          "score": 1.0,
+          "reasoning": "The claim that plan changes take effect at the start of the next billing cycle is explicitly supported by the second document, and the remainder of the answer correctly identifies the lack of information in the context."
+        },
+        "answer_relevance": {
+          "score": 1.0,
+          "reasoning": "The answer directly addresses the question using the provided context and correctly notes the limitation of the available information."
+        },
+        "context_precision": {
+          "score": 0.5,
+          "reasoning": "The answer relies exclusively on Doc 2 to address the question, while Doc 1 provides irrelevant information about insurance claim limits."
+        },
+        "context_recall": {
+          "score": 1.0,
+          "reasoning": "The provided context explicitly states that plan changes take effect at the start of the next billing cycle, which fully answers what happens when a user switches plans mid-month."
+        }
+      },
+      "overall": 0.875
+    },
+    {
+      "query_id": "Q07",
+      "query_text": "What about the deductible?",
+      "query_type": "context_dep",
+      "difficulty": "hard",
+      "expected_doc": "DI-002",
+      "context_doc_ids": [
+        "DI-002",
+        "DI-004"
+      ],
+      "answer": "Deductible amounts vary by plan tier, ranging from $0 to $99 depending on your specific device and insurance plan. These amounts are charged per approved claim and must be paid via credit card or account credit at the time of claim approval. Please note that customers on legacy plans may have different deductible schedules.",
+      "dim_scores": {
+        "faithfulness": {
+          "score": 1.0,
+          "reasoning": "All claims in the answer are directly supported by the information provided in document DI-002."
+        },
+        "answer_relevance": {
+          "score": 1.0,
+          "reasoning": "The answer directly addresses the question by summarizing the deductible structure, payment methods, and potential legacy plan exceptions based on the provided context."
+        },
+        "context_precision": {
+          "score": 0.5,
+          "reasoning": "The answer relies entirely on information provided in Doc 1, while Doc 2 is unrelated to deductibles and provides information about the claims process instead."
+        },
+        "context_recall": {
+          "score": 1.0,
+          "reasoning": "The retrieved context provides comprehensive information regarding deductible amounts, payment methods, and plan-specific variations, allowing for a complete answer to the question."
+        }
+      },
+      "overall": 0.875
+    },
+    {
+      "query_id": "Q08",
+      "query_text": "And how long does that usually take?",
+      "query_type": "context_dep",
+      "difficulty": "hard",
+      "expected_doc": "SMB-002",
+      "context_doc_ids": [
+        "DI-004",
+        "SMB-001"
+      ],
+      "answer": "Shipping for a replacement device typically takes 3\u20135 business days via standard delivery or 1\u20132 days with expedited shipping. If you are inquiring about setting up an SMB account, that process generally takes 30\u201360 minutes for accounts with fewer than 10 lines.",
+      "dim_scores": {
+        "faithfulness": {
+          "score": 1.0,
+          "reasoning": "Every claim in the answer is directly supported by the retrieved context."
+        },
+        "answer_relevance": {
+          "score": 1.0,
+          "reasoning": "The answer directly addresses the question by providing the timeframes for both processes described in the context, covering all possibilities since the context was ambiguous."
+        },
+        "context_precision": {
+          "score": 1.0,
+          "reasoning": "The answer utilizes information from both documents to address the timeline for both the device swap process and the SMB account setup process."
+        },
+        "context_recall": {
+          "score": 1.0,
+          "reasoning": "The retrieved context provides the duration for both potential processes mentioned in the documents, allowing the answer to address the question comprehensively based on the available information."
+        }
+      },
+      "overall": 1.0
+    },
+    {
+      "query_id": "Q09",
+      "query_text": "I want to file a claim for my broken screen.",
+      "query_type": "clear_intent",
+      "difficulty": "easy",
+      "expected_doc": "DI-001",
+      "context_doc_ids": [
+        "DI-001",
+        "DI-005"
+      ],
+      "answer": "To file a claim for your broken screen, log in to your account at my.carrier.com, navigate to 'Insurance & Protection', and select 'File a Claim'. You will need to provide your device's IMEI number, the date of the incident, and a brief description of the damage. Alternatively, you may initiate the process by calling 1-800-555-0147.",
+      "dim_scores": {
+        "faithfulness": {
+          "score": 1.0,
+          "reasoning": "All steps and requirements mentioned in the answer are directly supported by the instructions provided in Doc 1."
+        },
+        "answer_relevance": {
+          "score": 1.0,
+          "reasoning": "The answer provides clear, actionable, and accurate instructions for filing a claim based directly on the provided context."
+        },
+        "context_precision": {
+          "score": 0.5,
+          "reasoning": "The answer is entirely derived from Doc 1, while Doc 2 pertains specifically to water damage and was not used in the response."
+        },
+        "context_recall": {
+          "score": 1.0,
+          "reasoning": "The retrieved context provides all the necessary steps and information required to file a claim for a broken screen."
+        }
+      },
+      "overall": 0.875
+    },
+    {
+      "query_id": "Q10",
+      "query_text": "How do I give one of my employees access to manage the company's phone account?",
+      "query_type": "clear_intent",
+      "difficulty": "easy",
+      "expected_doc": "SMB-005",
+      "context_doc_ids": [
+        "SMB-005",
+        "SMB-008"
+      ],
+      "answer": "To give an employee access to manage the account, the primary account holder must use the Role-Based Access Control (RBAC) feature in the admin portal. You can create a sub-administrator account by navigating to 'User Management > Admin Accounts' to assign specific permissions.",
+      "dim_scores": {
+        "faithfulness": {
+          "score": 1.0,
+          "reasoning": "The answer accurately reflects the instructions provided in the retrieved context regarding the use of RBAC and the specific navigation path for managing admin accounts."
+        },
+        "answer_relevance": {
+          "score": 1.0,
+          "reasoning": "The answer directly provides the necessary steps to grant an employee management access by referencing the specific portal navigation and feature mentioned in the retrieved context."
+        },
+        "context_precision": {
+          "score": 0.5,
+          "reasoning": "The answer relies entirely on information provided in Doc 1, while Doc 2 is unrelated to setting up admin access and therefore acts as noise."
+        },
+        "context_recall": {
+          "score": 1.0,
+          "reasoning": "The provided context explicitly mentions that the primary account holder uses role-based access control (RBAC) and navigates to 'User Management > Admin Accounts' to manage sub-administrator access, which is sufficient to answer the question."
+        }
+      },
+      "overall": 0.875
+    }
+  ],
+  "summary": {
+    "overall_mean": 0.9,
+    "dim_means": {
+      "faithfulness": 1.0,
+      "answer_relevance": 1.0,
+      "context_precision": 0.6,
+      "context_recall": 1.0
+    },
+    "faithfulness_flags": [],
+    "n_flagged": 0
+  },
+  "cross_reference": [
+    {
+      "query_id": "Q03",
+      "human_1to3": "2.33 / 3",
+      "human_norm": "0.665",
+      "llm_judge": "0.875",
+      "delta": "0.210"
+    },
+    {
+      "query_id": "Q07",
+      "human_1to3": "3.00 / 3",
+      "human_norm": "1.000",
+      "llm_judge": "0.875",
+      "delta": "0.125"
+    },
+    {
+      "query_id": "Q09",
+      "human_1to3": "2.67 / 3",
+      "human_norm": "0.835",
+      "llm_judge": "0.875",
+      "delta": "0.040"
+    }
+  ]
+}
