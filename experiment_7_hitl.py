@@ -109,6 +109,12 @@ from queries import QUERIES
 
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash-lite")
 
+# Rate-limit guard: free-tier quota is ~10–15 requests/minute.
+# Part A makes 3 Gemini calls per query × 10 queries = 30 calls.
+# Part B makes ~1 call per write case × 3 cases = 3 calls. Total ~33 calls.
+# Default 5 s → ~12 RPM. Override: GEMINI_DELAY_S=0 for paid tier.
+GEMINI_DELAY_S = float(os.environ.get("GEMINI_DELAY_S", "5"))
+
 TOP_K      = 10
 CONTEXT_K  = 2
 RRF_K      = 60
@@ -207,6 +213,13 @@ def rerank_candidates(cross_encoder, query_text, candidates, corpus_lookup):
 # GEMINI HELPERS
 # ══════════════════════════════════════════════════════════════════════════════
 
+def _gemini_call(model, prompt_or_content):
+    """Wrapper that enforces the inter-call rate-limit delay after every generate_content()."""
+    response = model.generate_content(prompt_or_content)
+    if GEMINI_DELAY_S > 0:
+        time.sleep(GEMINI_DELAY_S)
+    return response
+
 def setup_gemini(api_key: str):
     if not HAS_GENAI:
         print("[ERROR] google-generativeai not installed.  Run: pip install google-generativeai")
@@ -234,7 +247,7 @@ def synthesise(model_name: str, query_text: str, docs: list[dict]) -> str:
         f"Question: {query_text}\n\nDocuments:\n{context}\n\nAnswer:"
     )
     model    = genai.GenerativeModel(model_name)
-    response = model.generate_content(prompt)
+    response = _gemini_call(model, prompt)
     return response.text.strip()
 
 
@@ -258,7 +271,7 @@ def _judge_score(model_name: str, dimension_key: str, instruction: str,
     gem = genai.GenerativeModel(model_name, system_instruction=system)
     for attempt in range(3):
         try:
-            raw = gem.generate_content(user).text.strip()
+            raw = _gemini_call(gem, user).text.strip()
             raw = re.sub(r"^```(?:json)?\s*", "", raw)
             raw = re.sub(r"\s*```$", "", raw)
             parsed = json.loads(raw)
@@ -526,7 +539,7 @@ def generate_write_proposal(
     gem = genai.GenerativeModel(model_name, system_instruction=system)
     for attempt in range(3):
         try:
-            raw = gem.generate_content(user).text.strip()
+            raw = _gemini_call(gem, user).text.strip()
             raw = re.sub(r"^```(?:json)?\s*", "", raw)
             raw = re.sub(r"\s*```$", "", raw)
             parsed = json.loads(raw)

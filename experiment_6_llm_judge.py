@@ -101,6 +101,14 @@ from queries import QUERIES
 # ══════════════════════════════════════════════════════════════════════════════
 
 GEMINI_MODEL      = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash-lite")
+
+# Rate-limit guard: free-tier quota is ~10–15 requests/minute.
+# Each query makes 5 Gemini calls (1 synthesis + 4 judge dimensions) × 10 queries = 50 calls.
+# GEMINI_DELAY_S adds a pause AFTER every generate_content() call.
+# Default 5 s → ~12 RPM, safely under a 15 RPM limit.
+# Override: GEMINI_DELAY_S=0 to disable (paid tier / higher quota).
+GEMINI_DELAY_S    = float(os.environ.get("GEMINI_DELAY_S", "5"))
+
 TOP_K             = 10
 CONTEXT_K         = 2         # docs fed to synthesiser
 RRF_K             = 60
@@ -229,6 +237,14 @@ def rerank_candidates(cross_encoder, query_text, candidates, corpus_lookup):
 # GEMINI HELPERS
 # ══════════════════════════════════════════════════════════════════════════════
 
+def _gemini_call(model, prompt_or_content) -> "genai.types.GenerateContentResponse":
+    """Wrapper around generate_content that enforces the inter-call rate-limit delay."""
+    response = model.generate_content(prompt_or_content)
+    if GEMINI_DELAY_S > 0:
+        time.sleep(GEMINI_DELAY_S)
+    return response
+
+
 def setup_gemini(api_key: str):
     if not HAS_GENAI:
         print("[ERROR] google-generativeai not installed.  Run: pip install google-generativeai")
@@ -261,7 +277,7 @@ def synthesise(model_name: str, query_text: str, docs: list[dict]) -> str:
         f"Documents:\n{context}\n\nAnswer:"
     )
     model    = genai.GenerativeModel(model_name)
-    response = model.generate_content(prompt)
+    response = _gemini_call(model, prompt)
     return response.text.strip()
 
 
@@ -311,7 +327,7 @@ def judge_dimension(
     for attempt in range(retries):
         try:
             t0       = time.time()
-            response = gem_model.generate_content(user)
+            response = _gemini_call(gem_model, user)
             latency  = round((time.time() - t0) * 1000, 1)
             raw      = response.text.strip()
 
