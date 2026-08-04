@@ -82,6 +82,7 @@ memory, tool routing, and observability. For a production team < 5 engineers,
 a custom orchestrator is often the better starting point.
 """
 
+import asyncio
 import json
 import os
 import re
@@ -89,6 +90,20 @@ import sys
 import time
 import textwrap
 from typing import Any
+
+# nest_asyncio lets asyncio.run() / loop.run_until_complete() work inside
+# Colab/Jupyter, which already has a running event loop.
+# Without this, CrewAI's synchronous kickoff raises:
+#   "Agent execution was invoked synchronously from within a running event loop"
+try:
+    import nest_asyncio
+    nest_asyncio.apply()
+    HAS_NEST_ASYNCIO = True
+except ImportError:
+    HAS_NEST_ASYNCIO = False
+
+# Suppress CrewAI's interactive tracing preference prompt (not useful in scripts)
+os.environ.setdefault("CREWAI_TRACING_ENABLED", "false")
 
 # ── CrewAI ─────────────────────────────────────────────────────────────────────
 try:
@@ -479,7 +494,11 @@ def run_crew(query: dict, retriever, analyst, reviewer) -> dict:
         verbose=False,
     )
 
-    crew.kickoff()
+    # Use kickoff_async() so CrewAI doesn't conflict with Colab's event loop.
+    # nest_asyncio (applied at import time) allows run_until_complete() inside
+    # a running loop, which is what Jupyter/IPython kernels always have.
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(crew.kickoff_async())
 
     retriever_out = retriever_task.output.raw if retriever_task.output else ""
     analyst_out   = analyst_task.output.raw   if analyst_task.output   else ""
@@ -527,7 +546,8 @@ def run_crew(query: dict, retriever, analyst, reviewer) -> dict:
             process=Process.sequential,
             verbose=False,
         )
-        revision_crew.kickoff()
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(revision_crew.kickoff_async())
 
         revision_out   = analyst_rev_task.output.raw  if analyst_rev_task.output  else ""
         revision_final = reviewer_final_task.output.raw if reviewer_final_task.output else ""
@@ -777,6 +797,10 @@ def print_comparison(hard_results_crew: list[dict], hard_results_single: list[di
 def main():
     if not HAS_CREWAI:
         print("[ERROR] crewai not installed. Run: pip install crewai")
+        sys.exit(1)
+    if not HAS_NEST_ASYNCIO:
+        print("[ERROR] nest_asyncio not installed. Run: pip install nest_asyncio")
+        print("        Required for Colab/Jupyter compatibility with CrewAI's async kickoff.")
         sys.exit(1)
 
     section("Experiment 9 — Multi-Agent RAG with CrewAI")
