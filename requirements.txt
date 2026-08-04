@@ -7,3 +7,4 @@ langfuse
 google-generativeai
 pandas
 tabulate
+crewai
