@@ -8,4 +8,3 @@ google-generativeai
 pandas
 tabulate
 crewai
-nest_asyncio

@@ -82,7 +82,6 @@ memory, tool routing, and observability. For a production team < 5 engineers,
 a custom orchestrator is often the better starting point.
 """
 
-import asyncio
 import json
 import os
 import re
@@ -91,16 +90,7 @@ import time
 import textwrap
 from typing import Any
 
-# nest_asyncio lets asyncio.run() / loop.run_until_complete() work inside
-# Colab/Jupyter, which already has a running event loop.
-# Without this, CrewAI's synchronous kickoff raises:
-#   "Agent execution was invoked synchronously from within a running event loop"
-try:
-    import nest_asyncio
-    nest_asyncio.apply()
-    HAS_NEST_ASYNCIO = True
-except ImportError:
-    HAS_NEST_ASYNCIO = False
+import concurrent.futures
 
 # Suppress CrewAI's interactive tracing preference prompt (not useful in scripts)
 os.environ.setdefault("CREWAI_TRACING_ENABLED", "false")
@@ -430,6 +420,25 @@ def build_agents(llm: "LLM") -> tuple:
 # communication happens: the orchestrator wires outputs, not the agents themselves.
 # Creating new Task objects per query ensures no context bleeds between queries.
 
+def _kickoff(crew) -> None:
+    """
+    Run crew.kickoff() inside a fresh ThreadPoolExecutor worker thread.
+
+    WHY A THREAD, NOT nest_asyncio?
+    CrewAI 1.15.x detects a running event loop with its own internal check and
+    raises "Agent execution was invoked synchronously from within a running event
+    loop" BEFORE Python's asyncio machinery is involved — so nest_asyncio cannot
+    intercept it.  Running kickoff() in a new OS thread is the reliable fix:
+    worker threads inherit no event loop from the parent, so CrewAI's check
+    passes and the synchronous path executes normally.
+    concurrent.futures.ThreadPoolExecutor is safe here because our retrieval
+    indexes (_DENSE_MODEL, _BM25, etc.) are read-only after build_indexes().
+    """
+    with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+        future = pool.submit(crew.kickoff)
+        future.result(timeout=300)   # 5-minute timeout per crew run
+
+
 def run_crew(query: dict, retriever, analyst, reviewer) -> dict:
     """
     Run the full 3-agent crew for one query. Returns a result dict with
@@ -494,11 +503,7 @@ def run_crew(query: dict, retriever, analyst, reviewer) -> dict:
         verbose=False,
     )
 
-    # Use kickoff_async() so CrewAI doesn't conflict with Colab's event loop.
-    # nest_asyncio (applied at import time) allows run_until_complete() inside
-    # a running loop, which is what Jupyter/IPython kernels always have.
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(crew.kickoff_async())
+    _kickoff(crew)
 
     retriever_out = retriever_task.output.raw if retriever_task.output else ""
     analyst_out   = analyst_task.output.raw   if analyst_task.output   else ""
@@ -546,8 +551,7 @@ def run_crew(query: dict, retriever, analyst, reviewer) -> dict:
             process=Process.sequential,
             verbose=False,
         )
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(revision_crew.kickoff_async())
+        _kickoff(revision_crew)
 
         revision_out   = analyst_rev_task.output.raw  if analyst_rev_task.output  else ""
         revision_final = reviewer_final_task.output.raw if reviewer_final_task.output else ""
@@ -798,10 +802,7 @@ def main():
     if not HAS_CREWAI:
         print("[ERROR] crewai not installed. Run: pip install crewai")
         sys.exit(1)
-    if not HAS_NEST_ASYNCIO:
-        print("[ERROR] nest_asyncio not installed. Run: pip install nest_asyncio")
-        print("        Required for Colab/Jupyter compatibility with CrewAI's async kickoff.")
-        sys.exit(1)
+
 
     section("Experiment 9 — Multi-Agent RAG with CrewAI")
     print(f"  CrewAI model         : {CREWAI_MODEL}")
