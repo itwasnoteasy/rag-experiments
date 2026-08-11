@@ -15,6 +15,62 @@ Also skip fine-tuning implementation. Reading about PEFT and LoRA at the concept
 ### On the YouTube question
 Watch one thing only: Karpathy's "Let's build GPT" if you haven't already. Two hours, directly relevant to the transformer internals questions Richard Chen might ask, and it builds genuine intuition rather than surface familiarity. Everything else in the retrieval and agentic space you'll learn faster by running it than watching someone explain it.
 
+### Content Addition on Aug-10 for YouTube videos
+Good timing to revisit this. Here's a direct answer, then a prioritized watch list.
+
+---
+
+## Should you watch the GPT-2 (124M) reproduction video?
+
+**Selectively.** The first ~45 minutes are genuinely valuable — it covers the architectural decisions that explain WHY certain RAG behaviours happen (context window limits, attention patterns, "lost in the middle"). The remaining ~3 hours is distributed training, flash attention implementation, and FSDP — excellent engineering content, but tangential to an Agentic AI Architect role. Don't watch all 4 hours.
+
+**The original "Let's build GPT from scratch" (~1hr) still stands as the better foundation** if you haven't watched it. It gives you the conceptual bedrock with less time investment.
+
+---
+
+## Prioritized Watch List (laser-focused for your role)
+
+**Tier 1 — Watch these in full (highest ROI)**
+
+| Video | Length | Why it matters for your interviews |
+|-------|--------|------------------------------------|
+| **Karpathy — "Intro to Large Language Models"** (Nov 2023) | 1hr | Covers LLM-as-OS mental model, context window as working memory, tools/plugins, security. This framing comes up constantly in system design interviews. |
+| **Karpathy — "State of GPT"** (Microsoft Build 2023) | 1hr | Pre-training → SFT → RLHF → prompting pipeline in one talk. Explains WHY RAG is preferred over fine-tuning for knowledge updates. |
+| **3Blue1Brown — "Attention in transformers"** series | ~1.5hr total | Visual intuition for attention heads and why context position matters. Explains "lost in the middle" at a mechanistic level — you can cite this in interviews. |
+
+**Tier 2 — Selective watching**
+
+| Video | What to watch | Skip |
+|-------|--------------|------|
+| **GPT-2 (124M) reproduction** | First 45 min (architecture choices, BPE tokenisation, why 124M parameters) | Distributed training, FSDP, flash attention implementation |
+| **Stanford CS25 — Transformers guest lectures** | Any episode with a practitioner (Matei Zaharia on LLM systems, Percy Liang on evaluation) | Theory-heavy academic sessions |
+
+**Tier 3 — Reference, not binge**
+
+- **Chip Huyen's "Designing ML Systems" talks** on YouTube — production ML, not LLM-specific but directly relevant to what you're building
+- **Eugene Yan's talks on RAG evaluation** — directly maps to experiments 6-9 you just built
+
+---
+
+## What you actually need for an Agentic AI Architect interview
+
+You do NOT need to know how to implement flash attention or FSDP. You DO need to be able to explain:
+
+| Topic | Where you already have it |
+|-------|--------------------------|
+| Why RAG over fine-tuning for knowledge freshness | Exp 1-5 + "State of GPT" talk |
+| How retrieval quality affects LLM output quality | Exp 5 (synthesis comparison) |
+| How to evaluate RAG at scale without human review | Exp 6 (LLM-as-judge) |
+| When to escalate vs auto-approve | Exp 7 (HITL) |
+| Why context position matters (lost in the middle) | 3B1B attention series + exp 2 cross-encoder |
+| Multi-agent orchestration tradeoffs | Exp 9 + your honest latency findings |
+| Guardrails and contradiction detection | Exp 8 (NLI) |
+
+**The honest gap:** your practical work in experiments 1-9 already covers more ground than most interview candidates. The videos fill in the "why does the transformer work this way" explanatory layer — which is what interviewers probe when they ask follow-up questions to your project answers.
+
+Watch "Intro to LLMs" and "State of GPT" this week. The 3Blue1Brown series on a weekend. That's ~3.5 hours that directly complements everything you've built.
+### -- End of updated content Addition on Aug-10 
+
 ### The minimal stack — all local except Langfuse and Gemini
 No Pinecone account needed. No cloud vector DB. Everything runs on your laptop.
 ```
