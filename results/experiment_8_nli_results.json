@@ -1,0 +1,242 @@
+{
+  "experiment": "experiment_8_nli_guardrail",
+  "nli_model": "cross-encoder/nli-deberta-v3-base",
+  "block_threshold": 0.5,
+  "nli_labels": [
+    "contradiction",
+    "entailment",
+    "neutral"
+  ],
+  "real_query_results": [
+    {
+      "query_id": "Q01",
+      "query_text": "What is the deductible for a premium smartphone under policy INS-POL-2024?",
+      "query_type": "exact_match",
+      "difficulty": "easy",
+      "expected_doc": "DI-002",
+      "premise_doc_id": "DI-002",
+      "hypothesis_truncated": "The provided documents do not state the deductible for a premium smartphone under policy INS-POL-2024. Document 1 specif\u2026",
+      "nli_scores": {
+        "contradiction": 0.0013,
+        "entailment": 0.0004,
+        "neutral": 0.9983
+      },
+      "top_label": "neutral",
+      "top_conf": 0.9983,
+      "latency_ms": 1421.2,
+      "action": "pass-through"
+    },
+    {
+      "query_id": "Q02",
+      "query_text": "How much is the non-return fee if I don't send back my swapped device \u2014 is it $200?",
+      "query_type": "exact_match",
+      "difficulty": "easy",
+      "expected_doc": "DI-004",
+      "premise_doc_id": "DI-004",
+      "hypothesis_truncated": "Yes, the non-return fee for failing to send back your damaged device within 10 business days is up to $200. This fee wil\u2026",
+      "nli_scores": {
+        "contradiction": 0.0004,
+        "entailment": 0.4033,
+        "neutral": 0.5963
+      },
+      "top_label": "neutral",
+      "top_conf": 0.5963,
+      "latency_ms": 1307.6,
+      "action": "pass-through"
+    },
+    {
+      "query_id": "Q03",
+      "query_text": "My handset took a dip in the toilet \u2014 will my protection plan cover the repair?",
+      "query_type": "semantic",
+      "difficulty": "hard",
+      "expected_doc": "DI-005",
+      "premise_doc_id": "DI-005",
+      "hypothesis_truncated": "Yes, your protection plan covers accidental liquid immersion, including dropping your device in water. Please ensure the\u2026",
+      "nli_scores": {
+        "contradiction": 0.0,
+        "entailment": 0.991,
+        "neutral": 0.009
+      },
+      "top_label": "entailment",
+      "top_conf": 0.991,
+      "latency_ms": 1693.9,
+      "action": "pass-through"
+    },
+    {
+      "query_id": "Q04",
+      "query_text": "We're moving our company to a new telecom provider and need to keep our existing contact numbers.",
+      "query_type": "semantic",
+      "difficulty": "hard",
+      "expected_doc": "SMB-009",
+      "premise_doc_id": "SMB-002",
+      "hypothesis_truncated": "To port your existing numbers to our network, you must submit a Port Authorization Code (PAC) or account transfer PIN fr\u2026",
+      "nli_scores": {
+        "contradiction": 0.0,
+        "entailment": 0.9976,
+        "neutral": 0.0024
+      },
+      "top_label": "entailment",
+      "top_conf": 0.9976,
+      "latency_ms": 1519.3,
+      "action": "pass-through"
+    },
+    {
+      "query_id": "Q05",
+      "query_text": "How do I add insurance to devices on my account?",
+      "query_type": "ambiguous",
+      "difficulty": "medium",
+      "expected_doc": "DI-006",
+      "premise_doc_id": "SMB-008",
+      "hypothesis_truncated": "To add insurance to devices, visit the 'Insurance' section in your account portal or speak with a representative at a re\u2026",
+      "nli_scores": {
+        "contradiction": 0.0006,
+        "entailment": 0.0001,
+        "neutral": 0.9992
+      },
+      "top_label": "neutral",
+      "top_conf": 0.9992,
+      "latency_ms": 1475.7,
+      "action": "pass-through"
+    },
+    {
+      "query_id": "Q06",
+      "query_text": "What happens when I switch to a different plan mid-month?",
+      "query_type": "ambiguous",
+      "difficulty": "medium",
+      "expected_doc": "SMB-004",
+      "premise_doc_id": "DI-007",
+      "hypothesis_truncated": "When you switch to a different business plan, the change takes effect at the start of the next billing cycle. The provid\u2026",
+      "nli_scores": {
+        "contradiction": 0.0052,
+        "entailment": 0.0001,
+        "neutral": 0.9947
+      },
+      "top_label": "neutral",
+      "top_conf": 0.9947,
+      "latency_ms": 1657.6,
+      "action": "pass-through"
+    },
+    {
+      "query_id": "Q07",
+      "query_text": "What about the deductible?",
+      "query_type": "context_dep",
+      "difficulty": "hard",
+      "expected_doc": "DI-002",
+      "premise_doc_id": "DI-002",
+      "hypothesis_truncated": "Deductible amounts vary by plan tier, ranging from $0 to $99 depending on your specific device and insurance plan. These\u2026",
+      "nli_scores": {
+        "contradiction": 0.1031,
+        "entailment": 0.8776,
+        "neutral": 0.0193
+      },
+      "top_label": "entailment",
+      "top_conf": 0.8776,
+      "latency_ms": 2037.8,
+      "action": "pass-through"
+    },
+    {
+      "query_id": "Q08",
+      "query_text": "And how long does that usually take?",
+      "query_type": "context_dep",
+      "difficulty": "hard",
+      "expected_doc": "SMB-002",
+      "premise_doc_id": "DI-004",
+      "hypothesis_truncated": "Shipping for a replacement device typically takes 3\u20135 business days via standard delivery or 1\u20132 days with expedited shi\u2026",
+      "nli_scores": {
+        "contradiction": 0.0002,
+        "entailment": 0.0006,
+        "neutral": 0.9992
+      },
+      "top_label": "neutral",
+      "top_conf": 0.9992,
+      "latency_ms": 1722.9,
+      "action": "pass-through"
+    },
+    {
+      "query_id": "Q09",
+      "query_text": "I want to file a claim for my broken screen.",
+      "query_type": "clear_intent",
+      "difficulty": "easy",
+      "expected_doc": "DI-001",
+      "premise_doc_id": "DI-001",
+      "hypothesis_truncated": "To file a claim for your broken screen, log in to your account at my.carrier.com, navigate to 'Insurance & Protection', \u2026",
+      "nli_scores": {
+        "contradiction": 0.0,
+        "entailment": 0.0037,
+        "neutral": 0.9963
+      },
+      "top_label": "neutral",
+      "top_conf": 0.9963,
+      "latency_ms": 1455.9,
+      "action": "pass-through"
+    },
+    {
+      "query_id": "Q10",
+      "query_text": "How do I give one of my employees access to manage the company's phone account?",
+      "query_type": "clear_intent",
+      "difficulty": "easy",
+      "expected_doc": "SMB-005",
+      "premise_doc_id": "SMB-005",
+      "hypothesis_truncated": "To give an employee access to manage the account, the primary account holder must use the Role-Based Access Control (RBA\u2026",
+      "nli_scores": {
+        "contradiction": 0.0001,
+        "entailment": 0.955,
+        "neutral": 0.045
+      },
+      "top_label": "entailment",
+      "top_conf": 0.955,
+      "latency_ms": 1441.6,
+      "action": "pass-through"
+    }
+  ],
+  "adversarial_results": [
+    {
+      "case_id": "ADV-01",
+      "name": "Dollar-amount substitution (Basic Plan deductibles)",
+      "premise_doc_id": "DI-002",
+      "contradiction_type": "numeric_substitution",
+      "expected_label": "contradiction",
+      "nli_scores": {
+        "contradiction": 0.9964,
+        "entailment": 0.0003,
+        "neutral": 0.0033
+      },
+      "top_label": "contradiction",
+      "top_conf": 0.9964,
+      "latency_ms": 635.5,
+      "action": "BLOCKED",
+      "caught": true,
+      "human_note": "$29\u2192$99 (standard) and $49\u2192$149 (premium) \u2014 wrong amounts for each tier. NLI should detect contradiction; numeric substitution may weaken detection."
+    },
+    {
+      "case_id": "ADV-02",
+      "name": "Time-duration substitution (number porting SLA)",
+      "premise_doc_id": "SMB-002",
+      "contradiction_type": "numeric_substitution_plus_fabrication",
+      "expected_label": "contradiction",
+      "nli_scores": {
+        "contradiction": 0.9967,
+        "entailment": 0.0001,
+        "neutral": 0.0032
+      },
+      "top_label": "contradiction",
+      "top_conf": 0.9967,
+      "latency_ms": 592.3,
+      "action": "BLOCKED",
+      "caught": true,
+      "human_note": "1\u20132 days is the EXPEDITED timeline, not standard (5\u20137 days). 'Instant same-day' is entirely fabricated \u2014 does not exist in the document. The fabrication element may help NLI detect contradiction where pure numeric substitution alone might not."
+    }
+  ],
+  "summary": {
+    "total_real_queries": 10,
+    "blocked": 0,
+    "pass_through": 10,
+    "adversarial_caught": 2,
+    "adversarial_missed": 0,
+    "label_distribution": {
+      "contradiction": 0,
+      "entailment": 4,
+      "neutral": 6
+    }
+  }
+}
