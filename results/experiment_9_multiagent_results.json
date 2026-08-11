@@ -1,0 +1,238 @@
+{
+  "experiment": "experiment_9_multiagent",
+  "crewai_model": "gemini/gemini-3.1-flash-lite",
+  "hard_query_ids": [
+    "Q04",
+    "Q06",
+    "Q08"
+  ],
+  "crew_results": [
+    {
+      "query_id": "Q01",
+      "query_text": "What is the deductible for a premium smartphone under policy INS-POL-2024?",
+      "query_type": "exact_match",
+      "difficulty": "easy",
+      "expected_doc": "DI-002",
+      "agent_outputs": {
+        "retriever": "1. **Document ID: DI-002**\n**Title:** Device Insurance Deductible Amounts by Plan Tier\n**Content:** Deductible amounts for device insurance vary by plan tier and device category. Under the Basic Protection Plan, deductibles are $29 for standard phones, $49 for premium smartphones, and $99 for tablets. The Enhanced Protection Plan reduces these to $0 for standard phones, $29 for premium smartphones, and $49 for tablets. The Total Coverage Plan offers a flat $0 deductible across all device categories. Deductibles are charged per approved claim and must be paid at the time of claim approval via c\u2026",
+        "analyst": "DRAFT ANSWER: The deductible for a premium smartphone depends on your specific plan tier: it is $49 under the Basic Protection Plan, $29 under the Enhanced Protection Plan, and $0 under the Total Coverage Plan. Please note that these amounts are subject to change and may differ if you are on a legacy plan (pre-2022).\n\nINFORMATION GAPS: The provided documents do not specify which plan tier is associated with policy INS-POL-2024, nor do they provide the specific deductible schedule for legacy plans.",
+        "reviewer": "APPROVED: The deductible for a premium smartphone depends on your specific plan tier: it is $49 under the Basic Protection Plan, $29 under the Enhanced Protection Plan, and $0 under the Total Coverage Plan. Please note that these amounts are subject to change and may differ if you are on a legacy plan (pre-2022).",
+        "analyst_revision": null,
+        "reviewer_final": null
+      },
+      "revised": false,
+      "final_answer": "The deductible for a premium smartphone depends on your specific plan tier: it is $49 under the Basic Protection Plan, $29 under the Enhanced Protection Plan, and $0 under the Total Coverage Plan. Please note that these amounts are subject to change and may differ if you are on a legacy plan (pre-2022).",
+      "total_latency_ms": 8344
+    },
+    {
+      "query_id": "Q02",
+      "query_text": "How much is the non-return fee if I don't send back my swapped device \u2014 is it $200?",
+      "query_type": "exact_match",
+      "difficulty": "easy",
+      "expected_doc": "DI-004",
+      "agent_outputs": {
+        "retriever": "1. **Document ID: DI-004**\n**Title:** Device Swap Process After Claim Approval\n**Content:** Once your insurance claim is approved and a device swap is selected as the resolution, the process works as follows. A certified refurbished or new device of the same make and model \u2014 or a comparable substitute if unavailable \u2014 will be shipped to your registered address. Shipping typically takes 3\u20135 business days via standard delivery or 1\u20132 days with expedited shipping (additional fee applies). You must return your damaged device within 10 business days using the prepaid return label included in the sw\u2026",
+        "analyst": "DRAFT ANSWER: If you fail to return your damaged device within 10 business days of receiving your replacement, you will be charged a non-return fee of up to $200.\n\nINFORMATION GAPS: None.",
+        "reviewer": "APPROVED: If you fail to return your damaged device within 10 business days of receiving your replacement, you will be charged a non-return fee of up to $200.",
+        "analyst_revision": null,
+        "reviewer_final": null
+      },
+      "revised": false,
+      "final_answer": "If you fail to return your damaged device within 10 business days of receiving your replacement, you will be charged a non-return fee of up to $200.",
+      "total_latency_ms": 5852
+    },
+    {
+      "query_id": "Q03",
+      "query_text": "My handset took a dip in the toilet \u2014 will my protection plan cover the repair?",
+      "query_type": "semantic",
+      "difficulty": "hard",
+      "expected_doc": "DI-005",
+      "agent_outputs": {
+        "retriever": "1. **Document ID: DI-005**\n**Title: Water Damage Policy and What's Covered**\n**Content:** Water and liquid damage is one of the most common insurance claims we receive. Our device insurance plans cover accidental liquid immersion, including drops in sinks, pools, and puddles. However, coverage is subject to conditions: the damage must be accidental, not resulting from intentional submersion beyond the device's rated IP water-resistance level (e.g., taking a non-waterproof phone scuba diving). Saltwater corrosion damage may require additional documentation. When filing a water damage claim, do \u2026",
+        "analyst": "DRAFT ANSWER: Yes, your protection plan covers accidental liquid immersion, including drops in toilets, provided the damage was accidental and not the result of intentional submersion beyond the device's rated water resistance. Please do not attempt to charge the device, keep it in a dry environment, and file your claim within 48 hours. Note that if you have previously used an unauthorized third-party repair service, your claim may be subject to review or denial if that repair contributed to the current damage.\n\nINFORMATION GAPS: The provided context does not specify which insurance plan you currently hold, which is relevant because data recovery is not a covered service under the Basic Protection Plan.",
+        "reviewer": "APPROVED: Yes, your protection plan covers accidental liquid immersion, including drops in toilets, provided the damage was accidental and not the result of intentional submersion beyond the device's rated water resistance. Please do not attempt to charge the device, keep it in a dry environment, and file your claim within 48 hours. Note that if you have previously used an unauthorized third-party repair service, your claim may be subject to review or denial if that repair contributed to the current damage.\n\nINFORMATION GAPS: The provided context does not specify which insurance plan you currently hold, which is relevant because data recovery is not a covered service under the Basic Protection Plan.",
+        "analyst_revision": null,
+        "reviewer_final": null
+      },
+      "revised": false,
+      "final_answer": "Yes, your protection plan covers accidental liquid immersion, including drops in toilets, provided the damage was accidental and not the result of intentional submersion beyond the device's rated water resistance. Please do not attempt to charge the device, keep it in a dry environment, and file your claim within 48 hours. Note that if you have previously used an unauthorized third-party repair service, your claim may be subject to review or denial if that repair contributed to the current damage.\n\nINFORMATION GAPS: The provided context does not specify which insurance plan you currently hold, which is relevant because data recovery is not a covered service under the Basic Protection Plan.",
+      "total_latency_ms": 7168
+    },
+    {
+      "query_id": "Q04",
+      "query_text": "We're moving our company to a new telecom provider and need to keep our existing contact numbers.",
+      "query_type": "semantic",
+      "difficulty": "hard",
+      "expected_doc": "SMB-009",
+      "agent_outputs": {
+        "retriever": "1. **Document ID: SMB-002**\n**Title:** Number Porting for Business Accounts\n**Content:** Porting your existing business phone numbers to our network preserves continuity for your clients and staff. To port numbers, submit a Port Authorization Code (PAC) or account transfer PIN from your current carrier for each number you wish to transfer. Bulk number porting for SMB accounts allows porting up to 100 numbers simultaneously via a CSV upload in the admin portal under 'Number Management > Port Numbers'. Standard porting takes 5\u20137 business days; expedited porting (2\u20133 business days) is available f\u2026",
+        "analyst": "DRAFT ANSWER: You can port your existing business numbers to our network by submitting a Port Authorization Code (PAC) or account transfer PIN from your current carrier via the admin portal. Standard porting takes 5\u20137 business days, though expedited options are available for a fee, and toll-free numbers require a separate authorization form. Please ensure your current contract allows for porting without early termination fees before you begin the process.\n\nINFORMATION GAPS: None.",
+        "reviewer": "APPROVED: You can port your existing business numbers to our network by submitting a Port Authorization Code (PAC) or account transfer PIN from your current carrier via the admin portal. Standard porting takes 5\u20137 business days, though expedited options are available for a fee, and toll-free numbers require a separate authorization form. Please ensure your current contract allows for porting without early termination fees before you begin the process.",
+        "analyst_revision": null,
+        "reviewer_final": null
+      },
+      "revised": false,
+      "final_answer": "You can port your existing business numbers to our network by submitting a Port Authorization Code (PAC) or account transfer PIN from your current carrier via the admin portal. Standard porting takes 5\u20137 business days, though expedited options are available for a fee, and toll-free numbers require a separate authorization form. Please ensure your current contract allows for porting without early termination fees before you begin the process.",
+      "total_latency_ms": 7437
+    },
+    {
+      "query_id": "Q05",
+      "query_text": "How do I add insurance to devices on my account?",
+      "query_type": "ambiguous",
+      "difficulty": "medium",
+      "expected_doc": "DI-006",
+      "agent_outputs": {
+        "retriever": "1. **Document ID: SMB-008**\n**Title:** Onboarding Checklist for New SMB Customers\n**Content:** To ensure a smooth onboarding experience, follow this checklist after your SMB account is created. Step 1: Log in to the admin portal and change the temporary password. Step 2: Enable two-factor authentication for all admin accounts. Step 3: Add employee profiles under 'User Management' and assign lines. Step 4: Upload your device inventory if bringing existing devices to the network (BYOD). Step 5: Configure billing preferences and enable auto-pay if desired. Step 6: Enroll devices in insurance plan\u2026",
+        "analyst": "DRAFT ANSWER: To add insurance to your devices, navigate to the 'Insurance & Protection' section in your admin portal or visit a retail location. You will need to provide your device's IMEI and agree to the plan terms. Please note that enrollment is generally restricted to within 30 days of purchase or during the annual open enrollment period in October.\n\nINFORMATION GAPS: The provided documents do not specify the exact steps for the \"bulk\" enrollment process mentioned for SMB account holders, nor do they provide the specific criteria required to qualify for the mentioned volume discounts.",
+        "reviewer": "APPROVED: To add insurance to your devices, navigate to the 'Insurance & Protection' section in your admin portal or visit a retail location. You will need to provide your device's IMEI and agree to the plan terms. Please note that enrollment is generally restricted to within 30 days of purchase or during the annual open enrollment period in October.\n\nINFORMATION GAPS: The provided documents do not specify the exact steps for the \"bulk\" enrollment process mentioned for SMB account holders, nor do they provide the specific criteria required to qualify for the mentioned volume discounts.",
+        "analyst_revision": null,
+        "reviewer_final": null
+      },
+      "revised": false,
+      "final_answer": "To add insurance to your devices, navigate to the 'Insurance & Protection' section in your admin portal or visit a retail location. You will need to provide your device's IMEI and agree to the plan terms. Please note that enrollment is generally restricted to within 30 days of purchase or during the annual open enrollment period in October.\n\nINFORMATION GAPS: The provided documents do not specify the exact steps for the \"bulk\" enrollment process mentioned for SMB account holders, nor do they provide the specific criteria required to qualify for the mentioned volume discounts.",
+      "total_latency_ms": 8258
+    },
+    {
+      "query_id": "Q06",
+      "query_text": "What happens when I switch to a different plan mid-month?",
+      "query_type": "ambiguous",
+      "difficulty": "medium",
+      "expected_doc": "SMB-004",
+      "agent_outputs": {
+        "retriever": "1. **Document ID: SMB-003 \u2014 Choosing the Right Business Plan**\n**Content:** Selecting the right plan for your business depends on your team's data needs, travel patterns, and budget. Our SMB plan tiers are: Business Starter (5GB data/line, domestic only, $25/line/month), Business Pro (unlimited domestic data + 10GB international roaming, $40/line/month), and Business Elite (unlimited domestic + international, priority network access, dedicated support, $60/line/month). All plans include unlimited talk and text within the domestic network. Volume discounts apply for accounts with 5+ lines: 10% \u2026",
+        "analyst": "DRAFT ANSWER: When you switch to a different plan, the change will take effect at the start of your next billing cycle. Please note that while mid-cycle additions like new lines or devices are prorated, plan changes themselves do not take effect until the following cycle.\n\nINFORMATION GAPS: The provided documents do not specify if there are any financial adjustments or credits applied to the current month's bill when switching between plans mid-cycle, only that the change itself is deferred until the next cycle.",
+        "reviewer": "APPROVED: When you switch to a different plan, the change will take effect at the start of your next billing cycle. Please note that while mid-cycle additions like new lines or devices are prorated, plan changes themselves do not take effect until the following cycle.\n\nINFORMATION GAPS: The provided documents do not specify if there are any financial adjustments or credits applied to the current month's bill when switching between plans mid-cycle, only that the change itself is deferred until the next cycle.",
+        "analyst_revision": null,
+        "reviewer_final": null
+      },
+      "revised": false,
+      "final_answer": "When you switch to a different plan, the change will take effect at the start of your next billing cycle. Please note that while mid-cycle additions like new lines or devices are prorated, plan changes themselves do not take effect until the following cycle.\n\nINFORMATION GAPS: The provided documents do not specify if there are any financial adjustments or credits applied to the current month's bill when switching between plans mid-cycle, only that the change itself is deferred until the next cycle.",
+      "total_latency_ms": 8298
+    },
+    {
+      "query_id": "Q07",
+      "query_text": "What about the deductible?",
+      "query_type": "context_dep",
+      "difficulty": "hard",
+      "expected_doc": "DI-002",
+      "agent_outputs": {
+        "retriever": "1. **Document ID: DI-002**\n**Title:** Device Insurance Deductible Amounts by Plan Tier\n**Content:** Deductible amounts for device insurance vary by plan tier and device category. Under the Basic Protection Plan, deductibles are $29 for standard phones, $49 for premium smartphones, and $99 for tablets. The Enhanced Protection Plan reduces these to $0 for standard phones, $29 for premium smartphones, and $49 for tablets. The Total Coverage Plan offers a flat $0 deductible across all device categories. Deductibles are charged per approved claim and must be paid at the time of claim approval via c\u2026",
+        "analyst": "DRAFT ANSWER: Deductible amounts depend on your specific plan tier: the Basic Protection Plan ranges from $29\u2013$99, the Enhanced Protection Plan ranges from $0\u2013$49, and the Total Coverage Plan features a $0 deductible. Deductibles are charged per approved claim and must be paid via credit card or account credit at the time of approval. Please note that legacy plans (pre-2022) may have different schedules, and current rates are subject to annual review.\n\nINFORMATION GAPS: The provided context does not specify which insurance plan you are currently enrolled in, nor does it confirm if you are on a legacy plan that might have different deductible requirements.",
+        "reviewer": "APPROVED: Deductible amounts depend on your specific plan tier: the Basic Protection Plan ranges from $29\u2013$99, the Enhanced Protection Plan ranges from $0\u2013$49, and the Total Coverage Plan features a $0 deductible. Deductibles are charged per approved claim and must be paid via credit card or account credit at the time of approval. Please note that legacy plans (pre-2022) may have different schedules, and current rates are subject to annual review.\n\nINFORMATION GAPS: The provided context does not specify which insurance plan you are currently enrolled in, nor does it confirm if you are on a legacy plan that might have different deductible requirements.",
+        "analyst_revision": null,
+        "reviewer_final": null
+      },
+      "revised": false,
+      "final_answer": "Deductible amounts depend on your specific plan tier: the Basic Protection Plan ranges from $29\u2013$99, the Enhanced Protection Plan ranges from $0\u2013$49, and the Total Coverage Plan features a $0 deductible. Deductibles are charged per approved claim and must be paid via credit card or account credit at the time of approval. Please note that legacy plans (pre-2022) may have different schedules, and current rates are subject to annual review.\n\nINFORMATION GAPS: The provided context does not specify which insurance plan you are currently enrolled in, nor does it confirm if you are on a legacy plan that might have different deductible requirements.",
+      "total_latency_ms": 9817
+    },
+    {
+      "query_id": "Q08",
+      "query_text": "And how long does that usually take?",
+      "query_type": "context_dep",
+      "difficulty": "hard",
+      "expected_doc": "SMB-002",
+      "agent_outputs": {
+        "retriever": "1. **Document ID: DI-001**\n**Title:** How to File a Device Insurance Claim\n**Content:** Filing a device insurance claim is straightforward. Log in to your account portal at my.carrier.com, navigate to 'Insurance & Protection', and select 'File a Claim'. You will need your device's IMEI number, the date the damage or loss occurred, and a brief description of the incident. Claims must be filed within 60 days of the incident. Once submitted, a claims adjuster will review your request within 1\u20132 business days. Approved claims for repairs are fulfilled through our network of certified repair center\u2026",
+        "analyst": "DRAFT ANSWER: Once your claim is submitted, a claims adjuster will review it within 1\u20132 business days. If your claim is approved, replacement devices are typically shipped within 3\u20135 business days.\n\nINFORMATION GAPS: The provided documents do not specify the total turnaround time for repairs at certified centers, only the shipping timeframe for replacement devices.",
+        "reviewer": "APPROVED: Once your claim is submitted, a claims adjuster will review it within 1\u20132 business days. If your claim is approved, replacement devices are typically shipped within 3\u20135 business days.\n\nINFORMATION GAPS: The provided documents do not specify the total turnaround time for repairs at certified centers, only the shipping timeframe for replacement devices.",
+        "analyst_revision": null,
+        "reviewer_final": null
+      },
+      "revised": false,
+      "final_answer": "Once your claim is submitted, a claims adjuster will review it within 1\u20132 business days. If your claim is approved, replacement devices are typically shipped within 3\u20135 business days.\n\nINFORMATION GAPS: The provided documents do not specify the total turnaround time for repairs at certified centers, only the shipping timeframe for replacement devices.",
+      "total_latency_ms": 6174
+    },
+    {
+      "query_id": "Q09",
+      "query_text": "I want to file a claim for my broken screen.",
+      "query_type": "clear_intent",
+      "difficulty": "easy",
+      "expected_doc": "DI-001",
+      "agent_outputs": {
+        "retriever": "1. **Document ID: DI-001**\n**Title:** How to File a Device Insurance Claim\n**Content:** Filing a device insurance claim is straightforward. Log in to your account portal at my.carrier.com, navigate to 'Insurance & Protection', and select 'File a Claim'. You will need your device's IMEI number, the date the damage or loss occurred, and a brief description of the incident. Claims must be filed within 60 days of the incident. Once submitted, a claims adjuster will review your request within 1\u20132 business days. Approved claims for repairs are fulfilled through our network of certified repair center\u2026",
+        "analyst": "DRAFT ANSWER: To file a claim for your broken screen, you can log in to your account at my.carrier.com, navigate to 'Insurance & Protection', and select 'File a Claim', or call 1-800-555-0147. You will need your device's IMEI number, the date of the incident, and a brief description of the damage. Please ensure your claim is submitted within 60 days of the incident.\n\nINFORMATION GAPS: None",
+        "reviewer": "APPROVED: To file a claim for your broken screen, you can log in to your account at my.carrier.com, navigate to 'Insurance & Protection', and select 'File a Claim', or call 1-800-555-0147. You will need your device's IMEI number, the date of the incident, and a brief description of the damage. Please ensure your claim is submitted within 60 days of the incident.",
+        "analyst_revision": null,
+        "reviewer_final": null
+      },
+      "revised": false,
+      "final_answer": "To file a claim for your broken screen, you can log in to your account at my.carrier.com, navigate to 'Insurance & Protection', and select 'File a Claim', or call 1-800-555-0147. You will need your device's IMEI number, the date of the incident, and a brief description of the damage. Please ensure your claim is submitted within 60 days of the incident.",
+      "total_latency_ms": 7013
+    },
+    {
+      "query_id": "Q10",
+      "query_text": "How do I give one of my employees access to manage the company's phone account?",
+      "query_type": "clear_intent",
+      "difficulty": "easy",
+      "expected_doc": "SMB-005",
+      "agent_outputs": {
+        "retriever": "1. **Document ID: SMB-005**\n**Title:** Admin Portal: Features and Access Management\n**Content:** The SMB admin portal at business.carrier.com/portal is the central hub for managing your organization's account. Key features include: user and line management (add, suspend, or remove lines), device inventory tracking, usage dashboards per line and department, billing and invoice access, number porting workflows, and insurance enrollment for all devices. Role-based access control (RBAC) allows the primary account holder to create sub-administrator accounts with limited permissions \u2014 for example, a\u2026",
+        "analyst": "DRAFT ANSWER: To grant an employee access to manage your account, log in to the admin portal at business.carrier.com/portal and use the role-based access control (RBAC) feature to create a sub-administrator account. You can manage these accounts and reset credentials under the 'User Management > Admin Accounts' section.\n\nINFORMATION GAPS: The provided documents do not contain specific step-by-step instructions on the exact menu path or buttons to click to initiate the creation of a new sub-administrator account, only where to manage them once created.",
+        "reviewer": "APPROVED: To grant an employee access to manage your account, log in to the admin portal at business.carrier.com/portal and use the role-based access control (RBAC) feature to create a sub-administrator account. You can manage these accounts and reset credentials under the 'User Management > Admin Accounts' section.",
+        "analyst_revision": null,
+        "reviewer_final": null
+      },
+      "revised": false,
+      "final_answer": "To grant an employee access to manage your account, log in to the admin portal at business.carrier.com/portal and use the role-based access control (RBAC) feature to create a sub-administrator account. You can manage these accounts and reset credentials under the 'User Management > Admin Accounts' section.",
+      "total_latency_ms": 6646
+    }
+  ],
+  "single_agent_results": [
+    {
+      "query_id": "Q04",
+      "query_text": "We're moving our company to a new telecom provider and need to keep our existing contact numbers.",
+      "context_doc_ids": [
+        "SMB-002",
+        "SMB-009"
+      ],
+      "final_answer": "To port your existing numbers to our network, please submit a Port Authorization Code (PAC) or account transfer PIN from your current carrier via the admin portal. You may port up to 100 numbers simultaneously via CSV upload, with standard processing taking 5\u20137 business days. Please ensure your contract with the previous carrier allows for porting without early termination fees before you begin.",
+      "total_latency_ms": 7325
+    },
+    {
+      "query_id": "Q06",
+      "query_text": "What happens when I switch to a different plan mid-month?",
+      "context_doc_ids": [
+        "DI-007",
+        "SMB-003"
+      ],
+      "final_answer": "Plan changes take effect at the start of the next billing cycle. The provided documents do not contain information regarding what happens specifically when switching plans mid-month other than confirming this effective date.",
+      "total_latency_ms": 7376
+    },
+    {
+      "query_id": "Q08",
+      "query_text": "And how long does that usually take?",
+      "context_doc_ids": [
+        "DI-004",
+        "SMB-001"
+      ],
+      "final_answer": "Shipping for a replacement device typically takes 3\u20135 business days via standard delivery or 1\u20132 days with expedited shipping. If you are inquiring about setting up an SMB account, that process generally takes 30\u201360 minutes for fewer than 10 lines.",
+      "total_latency_ms": 6611
+    }
+  ],
+  "summary": {
+    "total_queries": 10,
+    "queries_revised": 0,
+    "avg_crew_latency_ms": 7500,
+    "hard_query_latency_comparison": [
+      {
+        "query_id": "Q04",
+        "single_ms": 7325,
+        "crew_ms": 7437,
+        "revised": false
+      },
+      {
+        "query_id": "Q06",
+        "single_ms": 7376,
+        "crew_ms": 8298,
+        "revised": false
+      },
+      {
+        "query_id": "Q08",
+        "single_ms": 6611,
+        "crew_ms": 6174,
+        "revised": false
+      }
+    ]
+  }
+}
