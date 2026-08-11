@@ -1,0 +1,337 @@
+{
+  "experiment": "experiment_9b_langgraph",
+  "gemini_model": "gemini-3.1-flash-lite",
+  "interrupt_queries": [
+    "Q02",
+    "Q01"
+  ],
+  "query_results": [
+    {
+      "query_id": "Q01",
+      "query_text": "What is the deductible for a premium smartphone under policy INS-POL-2024?",
+      "query_type": "exact_match",
+      "difficulty": "easy",
+      "expected_doc": "DI-002",
+      "context_doc_ids": [
+        "DI-002",
+        "DI-003"
+      ],
+      "agent_outputs": {
+        "retriever": "",
+        "analyst": "",
+        "reviewer": ""
+      },
+      "nli_scores": {
+        "contradiction": 0.1465,
+        "entailment": 0.0614,
+        "neutral": 0.7921
+      },
+      "nli_action": "APPROVED",
+      "was_revised": false,
+      "interrupted": true,
+      "human_decision": "approve",
+      "final_answer": "The deductible for a premium smartphone depends on your specific plan tier: it is $49 under the Basic Protection Plan, $29 under the Enhanced Protection Plan, and $0 under the Total Coverage Plan.",
+      "node_latencies": {
+        "retriever_ms": 1869,
+        "analyst_ms_pass1": 5972,
+        "reviewer_ms_pass1": 879
+      },
+      "total_latency_ms": 9717
+    },
+    {
+      "query_id": "Q02",
+      "query_text": "How much is the non-return fee if I don't send back my swapped device \u2014 is it $200?",
+      "query_type": "exact_match",
+      "difficulty": "easy",
+      "expected_doc": "DI-004",
+      "context_doc_ids": [
+        "DI-004",
+        "DI-010"
+      ],
+      "agent_outputs": {
+        "retriever": "",
+        "analyst": "",
+        "reviewer": ""
+      },
+      "nli_scores": {
+        "contradiction": 0.0003,
+        "entailment": 0.0003,
+        "neutral": 0.9995
+      },
+      "nli_action": "APPROVED",
+      "was_revised": false,
+      "interrupted": true,
+      "human_decision": "approve",
+      "final_answer": "Failure to return your damaged device within 10 business days will result in a non-return fee of up to $200. The provided document confirms that the fee is indeed \"up to $200.\"",
+      "node_latencies": {
+        "retriever_ms": 909,
+        "analyst_ms_pass1": 5713,
+        "reviewer_ms_pass1": 950
+      },
+      "total_latency_ms": 8530
+    },
+    {
+      "query_id": "Q03",
+      "query_text": "My handset took a dip in the toilet \u2014 will my protection plan cover the repair?",
+      "query_type": "semantic",
+      "difficulty": "hard",
+      "expected_doc": "DI-005",
+      "context_doc_ids": [
+        "DI-005",
+        "DI-007"
+      ],
+      "agent_outputs": {
+        "retriever": "",
+        "analyst": "",
+        "reviewer": ""
+      },
+      "nli_scores": {
+        "contradiction": 0.0001,
+        "entailment": 0.9934,
+        "neutral": 0.0065
+      },
+      "nli_action": "APPROVED",
+      "was_revised": false,
+      "interrupted": false,
+      "human_decision": "",
+      "final_answer": "Yes, your protection plan covers accidental liquid immersion, such as a drop in the toilet, provided the damage was not intentional. Please do not attempt to charge the device, keep it in a dry environment, and file your claim within 48 hours.",
+      "node_latencies": {
+        "retriever_ms": 793,
+        "analyst_ms_pass1": 6167,
+        "reviewer_ms_pass1": 1042
+      },
+      "total_latency_ms": 8011
+    },
+    {
+      "query_id": "Q04",
+      "query_text": "We're moving our company to a new telecom provider and need to keep our existing contact numbers.",
+      "query_type": "semantic",
+      "difficulty": "hard",
+      "expected_doc": "SMB-009",
+      "context_doc_ids": [
+        "SMB-002",
+        "SMB-009"
+      ],
+      "agent_outputs": {
+        "retriever": "",
+        "analyst": "",
+        "reviewer": ""
+      },
+      "nli_scores": {
+        "contradiction": 0.0001,
+        "entailment": 0.9954,
+        "neutral": 0.0045
+      },
+      "nli_action": "APPROVED",
+      "was_revised": false,
+      "interrupted": false,
+      "human_decision": "",
+      "final_answer": "To keep your existing business phone numbers, you must submit a Port Authorization Code (PAC) or account transfer PIN from your current carrier for each number through the 'Number Management' section of the admin portal. Porting typically takes 5\u20137 business days, or up to 10 business days for toll-free numbers, and you should ensure your previous contract allows for this without early termination fees.",
+      "node_latencies": {
+        "retriever_ms": 883,
+        "analyst_ms_pass1": 6687,
+        "reviewer_ms_pass1": 1699
+      },
+      "total_latency_ms": 9276
+    },
+    {
+      "query_id": "Q05",
+      "query_text": "How do I add insurance to devices on my account?",
+      "query_type": "ambiguous",
+      "difficulty": "medium",
+      "expected_doc": "DI-006",
+      "context_doc_ids": [
+        "SMB-008",
+        "DI-006"
+      ],
+      "agent_outputs": {
+        "retriever": "",
+        "analyst": "",
+        "reviewer": ""
+      },
+      "nli_scores": {
+        "contradiction": 0.0006,
+        "entailment": 0.0002,
+        "neutral": 0.9992
+      },
+      "nli_action": "APPROVED",
+      "was_revised": false,
+      "interrupted": false,
+      "human_decision": "",
+      "final_answer": "To add insurance, log in to your admin portal and navigate to the \"Insurance & Protection\" section to enroll your devices. Alternatively, you can visit a retail location to speak with a representative. SMB account holders may also enroll multiple devices in bulk through the admin portal.",
+      "node_latencies": {
+        "retriever_ms": 862,
+        "analyst_ms_pass1": 6193,
+        "reviewer_ms_pass1": 1047
+      },
+      "total_latency_ms": 8109
+    },
+    {
+      "query_id": "Q06",
+      "query_text": "What happens when I switch to a different plan mid-month?",
+      "query_type": "ambiguous",
+      "difficulty": "medium",
+      "expected_doc": "SMB-004",
+      "context_doc_ids": [
+        "DI-007",
+        "SMB-003"
+      ],
+      "agent_outputs": {
+        "retriever": "",
+        "analyst": "",
+        "reviewer": ""
+      },
+      "nli_scores": {
+        "contradiction": 0.0013,
+        "entailment": 0.0002,
+        "neutral": 0.9985
+      },
+      "nli_action": "APPROVED",
+      "was_revised": false,
+      "interrupted": false,
+      "human_decision": "",
+      "final_answer": "Plan changes take effect at the start of the next billing cycle. Please contact your account manager to model cost scenarios before committing to a change.",
+      "node_latencies": {
+        "retriever_ms": 889,
+        "analyst_ms_pass1": 5713,
+        "reviewer_ms_pass1": 890
+      },
+      "total_latency_ms": 7501
+    },
+    {
+      "query_id": "Q07",
+      "query_text": "What about the deductible?",
+      "query_type": "context_dep",
+      "difficulty": "hard",
+      "expected_doc": "DI-002",
+      "context_doc_ids": [
+        "DI-002",
+        "DI-004"
+      ],
+      "agent_outputs": {
+        "retriever": "",
+        "analyst": "",
+        "reviewer": ""
+      },
+      "nli_scores": {
+        "contradiction": 0.0006,
+        "entailment": 0.9957,
+        "neutral": 0.0036
+      },
+      "nli_action": "APPROVED",
+      "was_revised": false,
+      "interrupted": false,
+      "human_decision": "",
+      "final_answer": "Deductible amounts depend on your plan tier (Basic, Enhanced, or Total Coverage) and device type, ranging from $0 to $99 per approved claim. Payments are due at the time of claim approval via credit card or account credit.",
+      "node_latencies": {
+        "retriever_ms": 818,
+        "analyst_ms_pass1": 5788,
+        "reviewer_ms_pass1": 922
+      },
+      "total_latency_ms": 7536
+    },
+    {
+      "query_id": "Q08",
+      "query_text": "And how long does that usually take?",
+      "query_type": "context_dep",
+      "difficulty": "hard",
+      "expected_doc": "SMB-002",
+      "context_doc_ids": [
+        "DI-004",
+        "SMB-001"
+      ],
+      "agent_outputs": {
+        "retriever": "",
+        "analyst": "",
+        "reviewer": ""
+      },
+      "nli_scores": {
+        "contradiction": 0.0002,
+        "entailment": 0.0005,
+        "neutral": 0.9993
+      },
+      "nli_action": "APPROVED",
+      "was_revised": false,
+      "interrupted": false,
+      "human_decision": "",
+      "final_answer": "Shipping for a device swap typically takes 3\u20135 business days via standard delivery or 1\u20132 days with expedited shipping. If you are referring to SMB account setup, that process generally takes 30\u201360 minutes for fewer than 10 lines, with login credentials emailed within 2 business days.",
+      "node_latencies": {
+        "retriever_ms": 764,
+        "analyst_ms_pass1": 8595,
+        "reviewer_ms_pass1": 1101
+      },
+      "total_latency_ms": 10468
+    },
+    {
+      "query_id": "Q09",
+      "query_text": "I want to file a claim for my broken screen.",
+      "query_type": "clear_intent",
+      "difficulty": "easy",
+      "expected_doc": "DI-001",
+      "context_doc_ids": [
+        "DI-001",
+        "DI-005"
+      ],
+      "agent_outputs": {
+        "retriever": "",
+        "analyst": "",
+        "reviewer": ""
+      },
+      "nli_scores": {
+        "contradiction": 0.0,
+        "entailment": 0.0055,
+        "neutral": 0.9944
+      },
+      "nli_action": "APPROVED",
+      "was_revised": false,
+      "interrupted": false,
+      "human_decision": "",
+      "final_answer": "To file a claim for your broken screen, log in to your account at my.carrier.com, navigate to 'Insurance & Protection', and select 'File a Claim', or call 1-800-555-0147. You must have your device's IMEI number, the date of the incident, and a brief description of the damage ready. Please ensure your claim is submitted within 60 days of the damage occurring.",
+      "node_latencies": {
+        "retriever_ms": 1034,
+        "analyst_ms_pass1": 6394,
+        "reviewer_ms_pass1": 1132
+      },
+      "total_latency_ms": 8569
+    },
+    {
+      "query_id": "Q10",
+      "query_text": "How do I give one of my employees access to manage the company's phone account?",
+      "query_type": "clear_intent",
+      "difficulty": "easy",
+      "expected_doc": "SMB-005",
+      "context_doc_ids": [
+        "SMB-005",
+        "SMB-008"
+      ],
+      "agent_outputs": {
+        "retriever": "",
+        "analyst": "",
+        "reviewer": ""
+      },
+      "nli_scores": {
+        "contradiction": 0.0,
+        "entailment": 0.9888,
+        "neutral": 0.0112
+      },
+      "nli_action": "APPROVED",
+      "was_revised": false,
+      "interrupted": false,
+      "human_decision": "",
+      "final_answer": "To grant an employee access to manage the account, the primary account holder must log into the admin portal and create a sub-administrator account under 'User Management > Admin Accounts'. You can use role-based access control (RBAC) to assign specific, limited permissions to these sub-admins.",
+      "node_latencies": {
+        "retriever_ms": 881,
+        "analyst_ms_pass1": 5940,
+        "reviewer_ms_pass1": 1118
+      },
+      "total_latency_ms": 7946
+    }
+  ],
+  "summary": {
+    "total": 10,
+    "nli_blocked": 0,
+    "revised": 0,
+    "interrupted": 2,
+    "avg_latency_ms": 8566
+  }
+}
