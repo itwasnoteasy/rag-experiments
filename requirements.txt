@@ -8,3 +8,4 @@ google-generativeai
 pandas
 tabulate
 crewai
+langgraph
